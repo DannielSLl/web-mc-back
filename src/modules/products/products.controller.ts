@@ -4,30 +4,30 @@ import { ProductDto } from './dto/product.dto';
 
 @Controller('products')
 export class ProductsController {
-    constructor(readonly productoService: ProductService){}
+    constructor(readonly productService: ProductService){}
 
     @Get()
     async getAll(){
-        return await this.productoService.getAll();
+        return await this.productService.getAll();
     }
 
     @Get(':id')
     async getOne(@Param('id', ParseIntPipe)id: number){
-        return await this.productoService.findById(id);
+        return await this.productService.findById(id);
     }
 
     @Post()
     async create(@Body()dto: ProductDto){
-        return await this.productoService.create(dto);
+        return await this.productService.create(dto);
     }
 
     @Put(':id')
     async update(@Param('id', ParseIntPipe)id: number, @Body()dto: ProductDto){
-        return await this.productoService.update(id, dto);
+        return await this.productService.update(id, dto);
     }
 
     @Delete(':id')
     async delete(@Param('id', ParseIntPipe)id: number){
-        return await this.productoService.delete(id);
+        return await this.productService.delete(id);
     }
 }

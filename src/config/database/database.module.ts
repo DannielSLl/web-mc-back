@@ -20,7 +20,6 @@ import { ProductEntity } from 'src/modules/products/product.entity';
           }),
           inject: [ConfigService],
         }),
-        TypeOrmModule.forFeature([ProductEntity]),
       ],
 })
 export class DatabaseModule {}
