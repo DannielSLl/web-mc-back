@@ -22,7 +22,7 @@ export class ProductService {
       async findById(id: number): Promise<ProductEntity> {
         const producto = await this.productRepository
           .createQueryBuilder('productos')
-          .where('productos.id = :id', { id })
+          .where('productos.producto_id = :id', { id })
           .getOne();
         if (!producto) {
           throw new NotFoundException({ message: 'No existe' });
@@ -52,6 +52,18 @@ export class ProductService {
         dto.precio
           ? (producto.precio = dto.precio)
           : (producto.precio = producto.precio);
+        dto.categoria
+          ? (producto.categoria = dto.categoria)
+          : (producto.categoria = producto.categoria);
+        dto.calorias
+          ? (producto.calorias = dto.calorias)
+          : (producto.calorias = producto.calorias);
+        dto.description
+          ? (producto.description = dto.description)
+          : (producto.description = producto.description)
+        dto.img
+          ? (producto.img = dto.img)
+          : (producto.img = producto.img)
         await this.productRepository.save(producto);
         return { message: `Producto ${producto.nombre} actualizado` };
       }
