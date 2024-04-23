@@ -16,6 +16,9 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "strict": true,
+    "typeRoots": ["node_modules/@types", "node_modules/@nestjs/config"]
+  },
+  "exclude": ["node_modules"]
 }
