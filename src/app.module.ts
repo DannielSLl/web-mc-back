@@ -4,13 +4,15 @@ import { AppService } from './app.service';
 import { ClientesController } from './modules/clientes/clientes.controller';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './config/database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClienteEntity } from './modules/clientes/cliente.entity';
 
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     DatabaseModule,
-    //agregar entidad
+    TypeOrmModule.forFeature([ClienteEntity])
   ],
   controllers: [AppController, ClientesController],
   providers: [AppService],
