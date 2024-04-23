@@ -4,28 +4,23 @@ import { IPostClienteRequest } from './dto/iPostClienteRequest';
 import { IPostClienteResponse } from './dto/iPostClienteResponse';
 import { Response } from 'express'; // Importa Response desde express
 import { IPutClienteRequest } from './dto/iPutClienteRequest';
+import { ClientesService } from './clientes.service';
+import { ClienteEntity } from './cliente.entity';
 
 @Controller('clientes')
 export class ClientesController {
     private clientes: IGetClienteResponse[] = [
-        {
-            name : 'Pedro',
-            lastname: 'Pedro',
-            email: 'Pedro@gmail.com',
-            phone: 912457889,
-            password: 'Pedro123',
-            puntos: 0,
-            id: 0
-        }
     ];
 
+    constructor(private clienteService: ClientesService) {}
+
     @Get()
-    public getClientes(): IGetClienteResponse[] {
+    public async getClientes(): Promise<IGetClienteResponse[]> {
         return this.clientes;
     }
 
     @Get(':id')
-    public getCliente(@Param('id') id: number): IGetClienteResponse {
+    public async getCliente(@Param('id') id: number): Promise<IGetClienteResponse> {
         const cliente: IGetClienteResponse = this.clientes.find(
             e => e.id == id
         );
@@ -42,17 +37,18 @@ export class ClientesController {
         };
 
         if (request) {
-            const newCliente: IGetClienteResponse = {
+            const newCliente: ClienteEntity = {
                 name: request.name,
                 lastname: request.lastname,
                 email: request.email,
                 phone: request.phone,
                 password: request.password,
-                puntos: request.puntos,
-                id: this.clientes.length
-            };
+                puntos: request.puntos, 
+            } as ClienteEntity;
 
-            this.clientes.push(newCliente);
+            //this.clientes.push(newCliente);
+
+            await this.clienteService.create(newCliente);
 
             return response;
         }
