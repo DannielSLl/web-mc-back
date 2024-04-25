@@ -1,19 +1,24 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './config/database/database.module';
+import { ClientesController } from './modules/clientes/clientes.controller';
 import { ConfigModule } from '@nestjs/config';
-import { ProductsController } from './modules/products/products.controller';
-import { ProductService } from './modules/products/products.service';
-import { ProductEntity } from './modules/products/product.entity';
+import { DatabaseModule } from './config/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClienteEntity } from './modules/clientes/cliente.entity';
+import { ClientesService } from './modules/clientes/clientes.service';
+import { ProductEntity } from './modules/products/product.entity';
+import { ProductService } from './modules/products/products.service';
+import { ProductsController } from './modules/products/products.controller';
+
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({isGlobal: true}),
     DatabaseModule,
-    TypeOrmModule.forFeature([ProductEntity]),],
-  controllers: [AppController, ProductsController],
-  providers: [AppService, ProductService],
+    TypeOrmModule.forFeature([ClienteEntity, ProductEntity])
+  ],
+  controllers: [AppController, ClientesController, ProductsController],
+  providers: [AppService, ClientesService, ProductService],
 })
 export class AppModule {}

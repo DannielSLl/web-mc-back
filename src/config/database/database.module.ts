@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { ProductEntity } from 'src/modules/products/product.entity';
-
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
@@ -17,6 +15,7 @@ import { ProductEntity } from 'src/modules/products/product.entity';
             database: configService.get('DB_DATABASE'),
             entities: [join(process.cwd(), 'dist/**/*.entity{.ts,.js}')],
             synchronize: true,
+            autoLoadEntities : true,
           }),
           inject: [ConfigService],
         }),
