@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Res, Delete, ParseIntPipe, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Response } from 'express'; 
 import { IGetEmployeeResponse } from './dto/IGetEmployeeResponse';
+import { IPostEmployeeRequest } from './dto/IPostEmployeeRequest';
 import { IPostEmployeeResponse } from './dto/IPostEmployeeResponse';
 import { EmployeesService } from './employees.service';
 import { UpdateResult } from 'typeorm';
