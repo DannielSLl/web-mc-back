@@ -24,7 +24,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
       inject: [ConfigService]
     }),
-    
   ],
   controllers: [AppController],
   providers: [AppService],
