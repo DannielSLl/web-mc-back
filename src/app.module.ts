@@ -23,7 +23,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         autoLoadEntities: true,
       }),
       inject: [ConfigService]
-    }),    
+    }),
+    
   ],
   controllers: [AppController],
   providers: [AppService],
