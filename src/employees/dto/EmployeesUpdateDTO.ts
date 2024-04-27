@@ -11,7 +11,7 @@ export class EmployeesUpdateDTO {
 
     @IsOptional()
     @IsString()
-    @IsEmail({}, { message: 'El correo electrónico debe tener un formato válido' })
+    @IsEmail()
     email: string;
 
     @IsOptional()

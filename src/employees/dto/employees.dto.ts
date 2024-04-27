@@ -1,24 +1,24 @@
 import { IsNotEmpty, IsString, IsEmail } from "class-validator";
 
 export class EmployeesDTO {
-    @IsNotEmpty({ message: 'El nombre es obligatorio' })
+    @IsNotEmpty()
     @IsString()
     name: string;
 
-    @IsNotEmpty({ message: 'El apellido es obligatorio' })
+    @IsNotEmpty()
     @IsString()
     lastname: string;
 
     @IsNotEmpty()
     @IsString()
-    @IsEmail({}, { message: 'El correo electrónico debe tener un formato válido' })
+    @IsEmail()
     email: string;
 
-    @IsNotEmpty({ message: 'La contraseña es obligatoria' })
+    @IsNotEmpty()
     @IsString()
     password: string;
 
-    @IsNotEmpty({ message: 'El rol es obligatorio' })
+    @IsNotEmpty()
     @IsString()
     role: string;
 }
