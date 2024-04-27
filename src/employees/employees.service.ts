@@ -63,12 +63,12 @@ export class EmployeesService {
    // dto.role ? employee.role = dto.role : employee.role = employee.role;
    
     await this.employeesRepository.save(employee);
-    return {message: `Empleado actualizado.`}
+    return {message: 'Empleado actualizado.'}
   }
 
   public async delete(id: number): Promise<any> {
     const employee = await this.getEmployeeId(id);
     await this.employeesRepository.delete(employee);
-    return {message: `Empleado eliminado.`}
+    return {message: 'Empleado eliminado.'}
   }
 }

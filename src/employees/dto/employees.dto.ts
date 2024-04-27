@@ -9,7 +9,7 @@ export class EmployeesDTO {
     @IsString()
     lastname: string;
 
-    @IsNotEmpty({ message: 'El correo electrónico es obligatorio' })
+    @IsNotEmpty()
     @IsString()
     @IsEmail({}, { message: 'El correo electrónico debe tener un formato válido' })
     email: string;

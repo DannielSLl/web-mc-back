@@ -11,4 +11,6 @@ import { EmployeesEntity } from './employees.entity';
   providers: [EmployeesService],
   controllers: [EmployeesController]
 })
-export class EmployeesModule {}
+export class EmployeesModule {
+
+}

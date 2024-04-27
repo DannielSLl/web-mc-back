@@ -19,4 +19,5 @@ export class EmployeesEntity {
 
     @Column({type: 'varchar', nullable: false})
     role: string;
+    
 }
