@@ -13,19 +13,34 @@ import { ProductsController } from './modules/products/products.controller';
 import { CategoriaEntity } from './modules/categoria/categoria.entity';
 import { CategoriaService } from './modules/categoria/categoria.service';
 import { CategoriaController } from './modules/categoria/categoria.controller';
+import { EmployeesEntity } from './modules/employees/employees.entity';
+import { EmployeesService } from './modules/employees/employees.service';
+import { EmployeesController } from './modules/employees/employees.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    TypeOrmModule.forFeature([ClienteEntity, ProductEntity, CategoriaEntity]),
+    TypeOrmModule.forFeature([
+      ClienteEntity,
+      ProductEntity,
+      CategoriaEntity,
+      EmployeesEntity,
+    ]),
   ],
   controllers: [
     AppController,
     ClientesController,
     ProductsController,
     CategoriaController,
+    EmployeesController,
   ],
-  providers: [AppService, ClientesService, ProductService, CategoriaService],
+  providers: [
+    AppService,
+    ClientesService,
+    ProductService,
+    CategoriaService,
+    EmployeesService,
+  ],
 })
 export class AppModule {}
