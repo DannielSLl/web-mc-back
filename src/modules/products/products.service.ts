@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './product.entity';
 import { Repository } from 'typeorm';
 import { ProductDto } from './dto/product.dto';
+import { dot } from 'node:test/reporters';
+import { CategoriaService } from '../categoria/categoria.service';
 
 @Injectable()
 export class ProductService {
     constructor(
         @InjectRepository(ProductEntity)
         private productRepository: Repository<ProductEntity>,
+        private categoriaService: CategoriaService
       ) {}
     
       async getAll(): Promise<ProductEntity[]> {
@@ -39,9 +42,12 @@ export class ProductService {
       }
     
       async create(dto: ProductDto): Promise<any> {
-        const producto = this.productRepository.create(dto);
-        await this.productRepository.save(producto);
-        return { message: `Producto ${producto.nombre} creado` };
+        const categoria = await this.categoriaService.findById(dto.categoria);
+        if (categoria.nombre){
+          const producto = this.productRepository.create(dto);
+          await this.productRepository.save(producto);
+          return { message: `Producto ${producto.nombre} creado` };
+        }
       }
     
       async update(id: number, dto: ProductDto): Promise<any> {
@@ -52,9 +58,6 @@ export class ProductService {
         dto.precio
           ? (producto.precio = dto.precio)
           : (producto.precio = producto.precio);
-        dto.categoria
-          ? (producto.categoria = dto.categoria)
-          : (producto.categoria = producto.categoria);
         dto.calorias
           ? (producto.calorias = dto.calorias)
           : (producto.calorias = producto.calorias);

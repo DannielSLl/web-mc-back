@@ -17,9 +17,9 @@ export class ProductDto {
     @IsNotEmpty({message: 'las calorias no pueden estar vacias'})
     calorias: number;
 
-    
-    @IsNotEmpty({message: 'la descripción no puede estar vacia'})
-    categoria: string;
+    @IsNumber()
+    @IsNotEmpty({message: 'la categoria no puede estar vacia'})
+    categoria: number;
 
     @IsNotEmpty({message: 'la imagen no puede estar vacia'})
     img: string;
