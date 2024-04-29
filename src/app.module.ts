@@ -14,14 +14,18 @@ import { CategoriaEntity } from './modules/categoria/categoria.entity';
 import { CategoriaService } from './modules/categoria/categoria.service';
 import { CategoriaController } from './modules/categoria/categoria.controller';
 
-
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}),
+    ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    TypeOrmModule.forFeature([ClienteEntity, ProductEntity, CategoriaEntity])
+    TypeOrmModule.forFeature([ClienteEntity, ProductEntity, CategoriaEntity]),
   ],
-  controllers: [AppController, ClientesController, ProductsController, CategoriaController],
+  controllers: [
+    AppController,
+    ClientesController,
+    ProductsController,
+    CategoriaController,
+  ],
   providers: [AppService, ClientesService, ProductService, CategoriaService],
 })
 export class AppModule {}
