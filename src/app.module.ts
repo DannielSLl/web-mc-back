@@ -13,14 +13,21 @@ import { ProductsController } from './modules/products/products.controller';
 import { EmployeesEntity } from './modules/employees/employees.entity';
 import { EmployeesService } from './modules/employees/employees.service';
 import { EmployeesController } from './modules/employees/employees.controller';
+import { AuthController } from './modules/auth/auth.controller';
+import { AuthService } from './modules/auth/auth.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     DatabaseModule,
     TypeOrmModule.forFeature([ClienteEntity, ProductEntity, EmployeesEntity]),
+    JwtModule.register({
+      secret: 'clave-secreta', //Cambiar luego
+      
+    })
   ],
-  controllers: [AppController, ClientesController, ProductsController, EmployeesController],
-  providers: [AppService, ClientesService, ProductService, EmployeesService],
+  controllers: [AppController, ClientesController, ProductsController, EmployeesController, AuthController],
+  providers: [AppService, ClientesService, ProductService, EmployeesService, AuthService, JwtService],
 })
 export class AppModule {}
