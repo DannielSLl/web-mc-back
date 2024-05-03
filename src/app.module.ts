@@ -15,7 +15,7 @@ import { EmployeesService } from './modules/employees/employees.service';
 import { EmployeesController } from './modules/employees/employees.controller';
 import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -23,11 +23,11 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     DatabaseModule,
     TypeOrmModule.forFeature([ClienteEntity, ProductEntity, EmployeesEntity]),
     JwtModule.register({
-      secret: 'clave-secreta', //Cambiar luego
-      
+      secret: 'clave_secreta', //Cambiar luego
+      signOptions: {expiresIn: '24h'}
     })
   ],
   controllers: [AppController, ClientesController, ProductsController, EmployeesController, AuthController],
-  providers: [AppService, ClientesService, ProductService, EmployeesService, AuthService, JwtService],
+  providers: [AppService, ClientesService, ProductService, EmployeesService, AuthService],
 })
 export class AppModule {}
