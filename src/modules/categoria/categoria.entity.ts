@@ -7,4 +7,7 @@ export class CategoriaEntity {
 
   @Column('varchar')
   nombre: string;
+
+  @Column('varchar')
+  url: string;
 }
