@@ -7,10 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Nombre de tu API')
-    .setDescription('Descripción de tu API')
+    .setTitle('WEB MC BACK')
     .setVersion('1.0')
-    .addTag('categoria') // Puedes agregar etiquetas para agrupar tus endpoints
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
