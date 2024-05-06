@@ -10,6 +10,9 @@ import { ClientesService } from './modules/clientes/clientes.service';
 import { ProductEntity } from './modules/products/product.entity';
 import { ProductService } from './modules/products/products.service';
 import { ProductsController } from './modules/products/products.controller';
+import { CategoriaEntity } from './modules/categoria/categoria.entity';
+import { CategoriaService } from './modules/categoria/categoria.service';
+import { CategoriaController } from './modules/categoria/categoria.controller';
 import { EmployeesEntity } from './modules/employees/employees.entity';
 import { EmployeesService } from './modules/employees/employees.service';
 import { EmployeesController } from './modules/employees/employees.controller';
@@ -19,15 +22,34 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}),
+    ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    TypeOrmModule.forFeature([ClienteEntity, ProductEntity, EmployeesEntity]),
+    TypeOrmModule.forFeature([
+      ClienteEntity,
+      ProductEntity,
+      CategoriaEntity,
+      EmployeesEntity,
+    ]),
     JwtModule.register({
       secret: 'clave_secreta', //Cambiar luego
       signOptions: {expiresIn: '24h'}
     })
   ],
-  controllers: [AppController, ClientesController, ProductsController, EmployeesController, AuthController],
-  providers: [AppService, ClientesService, ProductService, EmployeesService, AuthService],
+  controllers: [
+    AppController,
+    ClientesController,
+    ProductsController,
+    CategoriaController,
+    EmployeesController,
+    AuthController
+  ],
+  providers: [
+    AppService,
+    ClientesService,
+    ProductService,
+    CategoriaService,
+    EmployeesService,
+    AuthService
+  ],
 })
 export class AppModule {}
