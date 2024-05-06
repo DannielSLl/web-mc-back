@@ -13,7 +13,7 @@ import * as bcrypt from 'bcryptjs';
 export class AuthController {
   constructor(private authService: AuthService, private clienteService: ClientesService) {}
 
-  @Post('/signup')
+  @Post('signup')
   async signUp(@Body() request: ClienteDTO): Promise<IPostClienteResponse> {
     const response: IPostClienteResponse = {
       data: null,
@@ -42,7 +42,7 @@ export class AuthController {
   }
   }
 
-  @Post('/signin')
+  @Post('signin')
   async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
     const accessToken = await this.authService.signIn(authCredentialsDto);
     return { accessToken };
