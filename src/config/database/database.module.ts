@@ -8,8 +8,8 @@ import { join } from 'path';
         TypeOrmModule.forRootAsync({
           imports: [ConfigModule],
           useFactory: (configService: ConfigService) => ({
-            type: 'mysql',
-            url: "mysql://root:Danielpro12a.@localhost:3306/db_mcdonals",
+            type: 'postgres',
+            url: process.env.DATABASE_URL,
             entities: [join(process.cwd(), 'dist/**/*.entity{.ts,.js}')],
             synchronize: true,
             autoLoadEntities : true,
