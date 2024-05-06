@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class ClienteUpdateDTO {
     @IsOptional()
@@ -10,7 +10,7 @@ export class ClienteUpdateDTO {
     lastname: string;
 
     @IsOptional()
-    @IsString()
+    @IsEmail()
     email: string;
     
     @IsOptional()

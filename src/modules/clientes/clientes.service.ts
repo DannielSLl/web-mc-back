@@ -51,4 +51,13 @@ export class ClientesService {
         await this.clienteRepository.delete(cliente.id);
         return { message: 'Cliente ' + cliente.name + ' ' + cliente.lastname + ' eliminado'}
     }
+
+    public async findOneByEmail(email: string): Promise <ClienteEntity> {
+        try {
+            return await this.clienteRepository.findOneBy({email})
+        }
+        catch(error: any) {
+            throw new Error(error);
+        }
+    }
 }

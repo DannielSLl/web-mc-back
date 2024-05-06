@@ -16,6 +16,9 @@ import { CategoriaController } from './modules/categoria/categoria.controller';
 import { EmployeesEntity } from './modules/employees/employees.entity';
 import { EmployeesService } from './modules/employees/employees.service';
 import { EmployeesController } from './modules/employees/employees.controller';
+import { AuthController } from './modules/auth/auth.controller';
+import { AuthService } from './modules/auth/auth.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -27,6 +30,10 @@ import { EmployeesController } from './modules/employees/employees.controller';
       CategoriaEntity,
       EmployeesEntity,
     ]),
+    JwtModule.register({
+      secret: 'clave_secreta', //Cambiar luego
+      signOptions: {expiresIn: '24h'}
+    })
   ],
   controllers: [
     AppController,
@@ -34,6 +41,7 @@ import { EmployeesController } from './modules/employees/employees.controller';
     ProductsController,
     CategoriaController,
     EmployeesController,
+    AuthController
   ],
   providers: [
     AppService,
@@ -41,6 +49,7 @@ import { EmployeesController } from './modules/employees/employees.controller';
     ProductService,
     CategoriaService,
     EmployeesService,
+    AuthService
   ],
 })
 export class AppModule {}
