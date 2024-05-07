@@ -1,6 +1,6 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthCredentialsDto } from './dto/authCredentialsDTO';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { ClienteDTO } from '../clientes/dto/cliente.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ClienteEntity } from '../clientes/cliente.entity';
@@ -13,7 +13,8 @@ import * as bcrypt from 'bcryptjs';
 export class AuthController {
   constructor(private authService: AuthService, private clienteService: ClientesService) {}
 
-  @Post('/signup')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  @Post('signup')
   async signUp(@Body() request: ClienteDTO): Promise<IPostClienteResponse> {
     const response: IPostClienteResponse = {
       data: null,
@@ -42,7 +43,8 @@ export class AuthController {
   }
   }
 
-  @Post('/signin')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  @Post('signin')
   async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
     const accessToken = await this.authService.signIn(authCredentialsDto);
     return { accessToken };
