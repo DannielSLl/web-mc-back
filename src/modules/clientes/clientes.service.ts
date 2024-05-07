@@ -51,4 +51,15 @@ export class ClientesService {
         await this.clienteRepository.delete(cliente.id);
         return { message: 'Cliente ' + cliente.name + ' ' + cliente.lastname + ' eliminado'}
     }
+
+    public async findOneByEmail(email: string): Promise <ClienteEntity> {
+        try {
+            return await this.clienteRepository.createQueryBuilder('clientes').where(
+                'clientes.email = :email', {email}
+            ).getOne()
+        }
+        catch(error: any) {
+            throw new Error("Error al buscar el cliente por su correo electrónico");
+        }
+    }
 }

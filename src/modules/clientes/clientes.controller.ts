@@ -10,12 +10,12 @@ import { ClienteDTO } from './dto/cliente.dto';
 import { ClienteUpdateDTO } from './dto/clienteUpdateDTO';
 import { UpdateResult } from 'typeorm';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import * as bcrypt from 'bcryptjs';
+
 
 @ApiTags('clientes')
 @Controller('clientes')
 export class ClientesController {
-    private clientes: IGetClienteResponse[] = [
-    ];
 
     constructor(private clienteService: ClientesService) {}
 
@@ -47,16 +47,18 @@ export class ClientesController {
         };
 
         if (request) {
+            //Encriptar contraseña 
+            const hashedPassword = await bcrypt.hash(request.password, 10);
+
+            //Crear nuevo usuario
             const newCliente: ClienteEntity = {
                 name: request.name,
                 lastname: request.lastname,
                 email: request.email,
                 phone: request.phone,
-                password: request.password,
+                password: hashedPassword,
                 puntos: request.puntos, 
             } as ClienteEntity;
-
-            //this.clientes.push(newCliente);
 
             await this.clienteService.create(newCliente);
 
