@@ -9,25 +9,35 @@ import { ClienteEntity } from './cliente.entity';
 import { ClienteDTO } from './dto/cliente.dto';
 import { ClienteUpdateDTO } from './dto/clienteUpdateDTO';
 import { UpdateResult } from 'typeorm';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import * as bcrypt from 'bcryptjs';
 
 
+@ApiTags('clientes')
 @Controller('clientes')
 export class ClientesController {
 
     constructor(private clienteService: ClientesService) {}
 
     @Get()
+    @ApiOperation({ summary: 'Obtener todos los clientes' })
+    @ApiResponse({ status: 200, description: 'Clientes encontrados.', type: ClienteEntity, isArray: true }) 
     public async getClientes() {
         return await this.clienteService.getAllClientes();
     }
 
     @Get(':id')
+    @ApiOperation({ summary: 'Obtener un cliente por su ID' }) 
+    @ApiParam({ name: 'id', type: 'number', description: 'ID del cliente' }) 
+    @ApiResponse({ status: 200, description: 'Cliente encontrado.', type: ClienteEntity }) 
     public async getCliente(@Param('id', ParseIntPipe) id: number){
         return await this.clienteService.getCliente(id);
     }
 
     @Post()
+    @ApiOperation({ summary: 'Crear un nuevo cliente' }) 
+    @ApiBody({ type: ClienteDTO })
+    @ApiResponse({ status: 200, description: 'Cliente agregado correctamente.', type: ClienteEntity })
     async postCliente(@Body() request: ClienteDTO): Promise<IPostClienteResponse> {
         const response: IPostClienteResponse = {
             data: null,
@@ -57,6 +67,10 @@ export class ClientesController {
     }
     
     @Put(':id')
+    @ApiOperation({ summary: 'Actualizar un cliente existente por su ID' }) 
+    @ApiParam({ name: 'id', type: 'number', description: 'ID del cliente' }) 
+    @ApiBody({ type: ClienteUpdateDTO }) 
+    @ApiResponse({ status: 200, description: 'Cliente actualizado correctamente.', type: UpdateResult }) 
     async putCliente(
         @Param('id') id: number,
         @Body() request: ClienteUpdateDTO,
@@ -66,6 +80,9 @@ export class ClientesController {
     }
 
     @Delete(':id')
+    @ApiOperation({ summary: 'Eliminar un cliente por su ID' }) 
+    @ApiParam({ name: 'id', type: 'number', description: 'ID del cliente' }) 
+    @ApiResponse({ status: 200, description: 'Cliente eliminado correctamente.' })
     async delete(@Param('id', ParseIntPipe) id: number) {
         return await this.clienteService.delete(id);
     }
