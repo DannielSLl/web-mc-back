@@ -1,0 +1,25 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity({name: "clientes"})
+export class ClienteEntity {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({type: 'varchar'})
+    name: string;
+
+    @Column({type: 'varchar'})
+    lastname: string;
+
+    @Column({type: 'varchar', unique: true})
+    email: string;
+
+    @Column({type: 'float'})
+    phone: number;
+
+    @Column({type: 'varchar'})
+    password: string;
+
+    @Column({type: 'float'})
+    puntos: number;
+}
