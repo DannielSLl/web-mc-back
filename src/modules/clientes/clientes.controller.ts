@@ -57,7 +57,7 @@ export class ClientesController {
                 email: request.email,
                 phone: request.phone,
                 password: hashedPassword,
-                puntos: request.puntos, 
+                puntos: 0, 
             } as ClienteEntity;
 
             await this.clienteService.create(newCliente);

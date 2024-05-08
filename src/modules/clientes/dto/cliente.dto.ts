@@ -21,8 +21,4 @@ export class ClienteDTO {
     @IsString()
     @MinLength(8)
     password: string;
-
-    @IsNotEmpty()
-    @IsNumber()
-    puntos: number;
 }

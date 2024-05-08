@@ -34,7 +34,7 @@ export class AuthController {
           email: request.email,
           phone: request.phone,
           password: hashedPassword,
-          puntos: request.puntos, 
+          puntos: 0 
       } as ClienteEntity;
 
       await this.clienteService.create(newCliente);
@@ -45,8 +45,8 @@ export class AuthController {
 
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Post('signin')
-  async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-    const accessToken = await this.authService.signIn(authCredentialsDto);
-    return { accessToken };
+  async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ token: string }> {
+    const token = await this.authService.signIn(authCredentialsDto);
+    return { token };
   }
 }
