@@ -42,7 +42,7 @@ export class ProductService {
   }
 
   async create(dto: ProductDto): Promise<any> {
-    const categoria = await this.categoriaService.findById(dto.categoria);
+    const categoria = await this.categoriaService.findById(dto.categoria_id);
     if (categoria.nombre) {
       const producto = this.productRepository.create(dto);
       await this.productRepository.save(producto);

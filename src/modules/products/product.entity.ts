@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CategoriaEntity } from '../categoria/categoria.entity';
+import { IngredientesProductosEntity } from '../ingredientes/entity/ingredientes-productos.entity';
 
 @Entity({ name: 'productos' })
 export class ProductEntity {
@@ -18,9 +19,13 @@ export class ProductEntity {
   @Column({ type: 'float' })
   calorias: number;
 
-  @Column({ type: 'float' })
-  categoria: number;
-
   @Column({ type: 'varchar' })
   img: string;
+
+  @ManyToOne(() => CategoriaEntity, (categoria) => categoria.productEntity)
+  @JoinColumn({ name: 'categoria_id' })
+  categoria: CategoriaEntity;
+
+  @OneToMany(() => IngredientesProductosEntity, ingredientesProductosEntity => ingredientesProductosEntity.producto)
+  ingredientesProductosEntity: IngredientesProductosEntity[];
 }
