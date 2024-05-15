@@ -23,9 +23,12 @@ import { IngredientesController } from './modules/ingredientes/ingredientes.cont
 import { IngredientesService } from './modules/ingredientes/ingredientes.service';
 import { IngredientesEntity } from './modules/ingredientes/entity/ingredientes.entity';
 import { IngredientesProductosEntity } from './modules/ingredientes/entity/ingredientes-productos.entity';
+import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
+import { IngredientesProductosController } from './modules/ingredientes/ingredientes-productos.controller';
 
 @Module({
   imports: [
+    IngredientesModule,
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     TypeOrmModule.forFeature([
@@ -33,13 +36,11 @@ import { IngredientesProductosEntity } from './modules/ingredientes/entity/ingre
       ProductEntity,
       CategoriaEntity,
       EmployeesEntity,
-      IngredientesEntity,
-      IngredientesProductosEntity
     ]),
     JwtModule.register({
       secret: 'clave_secreta', //Cambiar luego
-      signOptions: {expiresIn: '24h'}
-    })
+      signOptions: { expiresIn: '24h' },
+    }),
   ],
   controllers: [
     AppController,
@@ -48,7 +49,6 @@ import { IngredientesProductosEntity } from './modules/ingredientes/entity/ingre
     CategoriaController,
     EmployeesController,
     AuthController,
-    IngredientesController
   ],
   providers: [
     AppService,
@@ -57,7 +57,6 @@ import { IngredientesProductosEntity } from './modules/ingredientes/entity/ingre
     CategoriaService,
     EmployeesService,
     AuthService,
-    IngredientesService
   ],
 })
 export class AppModule {}

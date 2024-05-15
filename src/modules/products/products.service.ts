@@ -25,8 +25,10 @@ export class ProductService {
   async findById(id: number): Promise<ProductEntity> {
     const producto = await this.productRepository
       .createQueryBuilder('productos')
+      .leftJoinAndSelect('productos.categoria', 'categoria')
       .where('productos.producto_id = :id', { id })
       .getOne();
+
     if (!producto) {
       throw new NotFoundException({ message: 'No existe' });
     }
@@ -42,9 +44,12 @@ export class ProductService {
   }
 
   async create(dto: ProductDto): Promise<any> {
-    const categoria = await this.categoriaService.findById(dto.categoria_id);
+    const categoria = await this.categoriaService.findById(dto.categoriaId);
     if (categoria.nombre) {
-      const producto = this.productRepository.create(dto);
+      const producto = this.productRepository.create({
+        ...dto,
+        categoria: categoria,
+      });
       await this.productRepository.save(producto);
       return { message: `Producto ${producto.nombre} creado` };
     }
