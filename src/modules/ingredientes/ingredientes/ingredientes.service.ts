@@ -1,5 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { IngredientesEntity } from './entity/ingredientes.entity';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { IngredientesEntity } from './ingredientes.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IngredienteDto } from './dto/ingrediente.dto';
@@ -17,28 +21,43 @@ export class IngredientesService {
   }
 
   async findById(id: number): Promise<IngredientesEntity> {
-    const ingrediente = await this.ingredientesRepository
-      .createQueryBuilder('ingredientes')
-      .where('ingredientes.ingrediente_id = :id', { id })
-      .getOne();
-    return ingrediente;
+    try {
+      const ingrediente = await this.ingredientesRepository
+        .createQueryBuilder('ingredientes')
+        .where('ingredientes.ingrediente_id = :id', { id })
+        .getOne();
+      return ingrediente;
+    } catch (error) {
+      throw new NotFoundException({ message: 'No existe' });
+    }
   }
 
   async findByNombre(nombre: string): Promise<IngredientesEntity> {
-    const ingrediente = await this.ingredientesRepository
-      .createQueryBuilder('ingredientes')
-      .where('ingredientes.nombre = :nombre', { nombre })
-      .getOne();
-    return ingrediente;
+    try {
+      const ingrediente = await this.ingredientesRepository
+        .createQueryBuilder('ingredientes')
+        .where('ingredientes.nombre = :nombre', { nombre })
+        .getOne();
+      return ingrediente;
+    } catch (error) {
+      throw new NotFoundException({ message: 'No existe' });
+    }
   }
 
   async create(dto: IngredienteDto): Promise<any> {
+    if (await this.findByNombre(dto.nombre)) {
+      throw new ConflictException({ message: 'Ya existe' });
+    }
     const ingrediente = this.ingredientesRepository.create(dto);
+    console.log(ingrediente);
     await this.ingredientesRepository.save(ingrediente);
     return { message: `Ingrediente ${ingrediente.nombre} creado` };
   }
 
   async update(id: number, dto: IngredienteDto): Promise<any> {
+    if (await this.findByNombre(dto.nombre)) {
+      throw new ConflictException({ message: 'Ya existe' });
+    }
     const ingrediente = await this.findById(id);
     dto.nombre
       ? (ingrediente.nombre = dto.nombre)

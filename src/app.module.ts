@@ -19,12 +19,7 @@ import { EmployeesController } from './modules/employees/employees.controller';
 import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { IngredientesController } from './modules/ingredientes/ingredientes.controller';
-import { IngredientesService } from './modules/ingredientes/ingredientes.service';
-import { IngredientesEntity } from './modules/ingredientes/entity/ingredientes.entity';
-import { IngredientesProductosEntity } from './modules/ingredientes/entity/ingredientes-productos.entity';
 import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
-import { IngredientesProductosController } from './modules/ingredientes/ingredientes-productos.controller';
 
 @Module({
   imports: [

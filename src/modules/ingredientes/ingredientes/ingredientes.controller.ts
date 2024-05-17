@@ -27,14 +27,21 @@ export class IngredientesController {
     return await this.ingredientesService.findById(id);
   }
 
+  @Get('nombre/:nombre')
+  async getOneByName(@Param('nombre') nombre: string) {
+    return await this.ingredientesService.findByNombre(nombre);
+  }
+
   @Post()
-  @UsePipes(new ValidationPipe({ whitelist: true }))
   async create(@Body() dto: IngredienteDto) {
     return await this.ingredientesService.create(dto);
   }
 
   @Put(':id')
-  async update(id: number, dto: any) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: IngredienteDto,
+  ) {
     return await this.ingredientesService.update(id, dto);
   }
 

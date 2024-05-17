@@ -1,11 +1,10 @@
-import { ProductService } from './../products/products.service';
+import { ProductService } from '../../products/products.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IngredientesProductosEntity } from './entity/ingredientes-productos.entity';
+import { IngredientesProductosEntity } from './ingredientes-productos.entity';
 import { Repository } from 'typeorm';
-import { IngredientesService } from './ingredientes.service';
+import { IngredientesService } from '../ingredientes/ingredientes.service';
 import { IngredienteProductoDto } from './dto/ingrediente-producto.dto';
-import { IngredientesEntity } from './entity/ingredientes.entity';
 
 @Injectable()
 export class IngredientesProductosService {
@@ -16,13 +15,15 @@ export class IngredientesProductosService {
     private ingredientesService: IngredientesService,
   ) {}
 
-  async findIngredientesByProductId(id: number): Promise<IngredientesProductosEntity[]> {
+  async findIngredientesByProductId(
+    id: number,
+  ): Promise<IngredientesProductosEntity[]> {
     const ingredientesProductos = await this.ingredientesProductoRepository
-        .createQueryBuilder('ip')
-        .leftJoinAndSelect('ip.ingrediente', 'ingrediente')
-        .where('ip.producto_id = :id', { id })
-        .getMany();
-      return ingredientesProductos;
+      .createQueryBuilder('ip')
+      .leftJoinAndSelect('ip.ingrediente', 'ingrediente')
+      .where('ip.producto_id = :id', { id })
+      .getMany();
+    return ingredientesProductos;
   }
 
   async createNewRelation(
