@@ -10,6 +10,7 @@ import { ProductService } from '../products/products.service';
 import { ProductEntity } from '../products/product.entity';
 import { CategoriaService } from '../categoria/categoria.service';
 import { CategoriaEntity } from '../categoria/categoria.entity';
+import { LocalIngredienteEntity } from '../local/local-ingrediente/local-ingrediente.entity';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CategoriaEntity } from '../categoria/categoria.entity';
       IngredientesProductosEntity,
       ProductEntity,
       CategoriaEntity,
+      LocalIngredienteEntity
     ]),
   ],
   controllers: [IngredientesController, IngredientesProductosController],

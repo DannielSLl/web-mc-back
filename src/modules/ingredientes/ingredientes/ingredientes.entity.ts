@@ -1,3 +1,4 @@
+import { LocalIngredienteEntity } from 'src/modules/local/local-ingrediente/local-ingrediente.entity';
 import { IngredientesProductosEntity } from '../ingredienteProducto/ingredientes-productos.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -17,4 +18,10 @@ export class IngredientesEntity {
     (ingredientesProductosEntity) => ingredientesProductosEntity.ingrediente,
   )
   ingredientesProductosEntity: IngredientesProductosEntity[];
+
+  @OneToMany(
+    () => LocalIngredienteEntity,
+    (localIngredienteEntity) => localIngredienteEntity.ingrediente,
+  )
+  localIngredienteEntity: LocalIngredienteEntity[];
 }
