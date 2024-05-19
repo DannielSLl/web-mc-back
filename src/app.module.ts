@@ -18,7 +18,6 @@ import { AuthService } from './modules/auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
 import { LocalModule } from './modules/local/local.module';
-import { LocalProductoEntity } from './modules/local/local-producto/local-producto.entity';
 import { ProductsModule } from './modules/products/products.module';
 
 @Module({

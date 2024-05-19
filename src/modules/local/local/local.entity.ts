@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { LocalProductoEntity } from '../local-producto/local-producto.entity';
+import { LocalIngredienteEntity } from '../local-ingrediente/local-ingrediente.entity';
 
 @Entity('locales')
 export class LocalEntity {
@@ -16,8 +16,8 @@ export class LocalEntity {
   direccion: string;
 
   @OneToMany(
-    () => LocalProductoEntity,
-    (localProductoEntity) => localProductoEntity.local,
+    () => LocalIngredienteEntity,
+    (localIngredienteEntity) => localIngredienteEntity.local,
   )
-  localProductEntity: LocalProductoEntity[];
+  localIngredienteEntity: LocalIngredienteEntity[];
 }
