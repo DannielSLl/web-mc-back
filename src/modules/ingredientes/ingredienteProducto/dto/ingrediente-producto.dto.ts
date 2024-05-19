@@ -6,4 +6,10 @@ export class IngredienteProductoDto {
 
   @IsNotEmpty()
   cantidad: number;
+
+  @IsNotEmpty()
+  producto_id: number;
+
+  @IsNotEmpty()
+  ingrediente_id: number;
 }

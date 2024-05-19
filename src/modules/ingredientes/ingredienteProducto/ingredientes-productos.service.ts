@@ -26,18 +26,15 @@ export class IngredientesProductosService {
     return ingredientesProductos;
   }
 
-  async createNewRelation(
-    idProducto: number,
-    idIngrediente: number,
-    cantidad: IngredienteProductoDto,
+  async createNewRelation(dto: IngredienteProductoDto
   ): Promise<any> {
-    const product = await this.ProductService.findById(idProducto);
-    const ingrediente = await this.ingredientesService.findById(idIngrediente);
+    const product = await this.ProductService.findById(dto.producto_id);
+    const ingrediente = await this.ingredientesService.findById(dto.ingrediente_id);
     const newRelation = this.ingredientesProductoRepository.create({
       producto: product,
       ingrediente: ingrediente,
-      cantidad: cantidad.cantidad,
-      gramos: cantidad.gramos,
+      cantidad: dto.cantidad,
+      gramos: dto.gramos,
     });
     await this.ingredientesProductoRepository.save(newRelation);
     return {

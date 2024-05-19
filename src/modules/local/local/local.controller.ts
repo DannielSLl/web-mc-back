@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { LocalService } from './local.service';
 import { LocalDto } from './dto/local.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('local')
 @Controller('local')
 export class LocalController {
     constructor(
