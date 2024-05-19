@@ -24,11 +24,11 @@ export class IngredientesService {
     try {
       const ingrediente = await this.ingredientesRepository
         .createQueryBuilder('ingredientes')
-        .where('ingredientes.ingrediente_id = :id', { id })
+        .where('ingredientes.id = :id', { id })
         .getOne();
       return ingrediente;
     } catch (error) {
-      throw new NotFoundException({ message: 'No existe' });
+      throw new NotFoundException({ message: 'No existe el ingrediente' });
     }
   }
 
@@ -40,13 +40,13 @@ export class IngredientesService {
         .getOne();
       return ingrediente;
     } catch (error) {
-      throw new NotFoundException({ message: 'No existe' });
+      throw new NotFoundException({ message: 'No existe el ingrediente' });
     }
   }
 
   async create(dto: IngredienteDto): Promise<any> {
     if (await this.findByNombre(dto.nombre)) {
-      throw new ConflictException({ message: 'Ya existe' });
+      throw new ConflictException({ message: 'Ya existe el ingrediente' });
     }
     const ingrediente = this.ingredientesRepository.create(dto);
     console.log(ingrediente);
@@ -56,7 +56,7 @@ export class IngredientesService {
 
   async update(id: number, dto: IngredienteDto): Promise<any> {
     if (await this.findByNombre(dto.nombre)) {
-      throw new ConflictException({ message: 'Ya existe' });
+      throw new ConflictException({ message: 'Ya existe el ingrediente' });
     }
     const ingrediente = await this.findById(id);
     dto.nombre

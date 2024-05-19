@@ -12,7 +12,7 @@ import { IngredientesEntity } from '../ingredientes/ingredientes.entity';
 @Entity({ name: 'ingredientes_productos' })
 export class IngredientesProductosEntity {
   @PrimaryGeneratedColumn()
-  ingredienteToProducto_id: number;
+  id: number;
 
   @Column()
   gramos: number;

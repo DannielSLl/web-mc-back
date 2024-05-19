@@ -23,7 +23,7 @@ export class LocalIngredienteEntity {
   @JoinColumn({ name: 'ingrediente_id' })
   ingrediente: IngredientesEntity;
 
-  @ManyToOne(() => LocalEntity, (local) => local.localProductEntity)
+  @ManyToOne(() => LocalEntity, (local) => local.localIngredienteEntity)
   @JoinColumn({ name: 'local_id' })
   local: LocalEntity;
 }
