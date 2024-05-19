@@ -9,6 +9,7 @@ import { IPostClienteResponse } from '../clientes/dto/iPostClienteResponse';
 import * as bcrypt from 'bcryptjs';
 
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService, private clienteService: ClientesService) {}

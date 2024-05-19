@@ -12,7 +12,9 @@ import {
 } from '@nestjs/common';
 import { IngredientesService } from './ingredientes.service';
 import { IngredienteDto } from './dto/ingrediente.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('ingredientes')
 @Controller('ingredientes')
 export class IngredientesController {
   constructor(private readonly ingredientesService: IngredientesService) {}
