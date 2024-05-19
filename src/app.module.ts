@@ -7,9 +7,6 @@ import { DatabaseModule } from './config/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClienteEntity } from './modules/clientes/cliente.entity';
 import { ClientesService } from './modules/clientes/clientes.service';
-import { ProductEntity } from './modules/products/product.entity';
-import { ProductService } from './modules/products/products.service';
-import { ProductsController } from './modules/products/products.controller';
 import { CategoriaEntity } from './modules/categoria/categoria.entity';
 import { CategoriaService } from './modules/categoria/categoria.service';
 import { CategoriaController } from './modules/categoria/categoria.controller';
@@ -19,37 +16,40 @@ import { EmployeesController } from './modules/employees/employees.controller';
 import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
+import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
+import { LocalModule } from './modules/local/local.module';
+import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
+    LocalModule,
+    IngredientesModule,
+    ProductsModule,
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     TypeOrmModule.forFeature([
       ClienteEntity,
-      ProductEntity,
       CategoriaEntity,
       EmployeesEntity,
     ]),
     JwtModule.register({
       secret: 'clave_secreta', //Cambiar luego
-      signOptions: {expiresIn: '24h'}
-    })
+      signOptions: { expiresIn: '24h' },
+    }),
   ],
   controllers: [
     AppController,
     ClientesController,
-    ProductsController,
     CategoriaController,
     EmployeesController,
-    AuthController
+    AuthController,
   ],
   providers: [
     AppService,
     ClientesService,
-    ProductService,
     CategoriaService,
     EmployeesService,
-    AuthService
+    AuthService,
   ],
 })
 export class AppModule {}
