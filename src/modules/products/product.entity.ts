@@ -1,6 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { CategoriaEntity } from '../categoria/categoria.entity';
 import { IngredientesProductosEntity } from '../ingredientes/ingredienteProducto/ingredientes-productos.entity';
+import { LocalProductoEntity } from '../local/local-producto/local-producto.entity';
 
 @Entity({ name: 'productos' })
 export class ProductEntity {
@@ -26,7 +34,15 @@ export class ProductEntity {
   @JoinColumn({ name: 'categoria_id' })
   categoria: CategoriaEntity;
 
-  @OneToMany(() => IngredientesProductosEntity, ingredientesProductosEntity => ingredientesProductosEntity.producto)
+  @OneToMany(
+    () => IngredientesProductosEntity,
+    (ingredientesProductosEntity) => ingredientesProductosEntity.producto,
+  )
   ingredientesProductosEntity: IngredientesProductosEntity[];
 
+  @OneToMany(
+    () => LocalProductoEntity,
+    (localProductoEntity) => localProductoEntity.producto,
+  )
+  localProductoEntity: LocalProductoEntity[];
 }

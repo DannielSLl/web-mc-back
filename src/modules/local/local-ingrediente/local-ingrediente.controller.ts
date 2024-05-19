@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { LocalIngredienteService } from './local-ingrediente.service';
 import { LocalIngredienteDto } from './dto/local-ingrediente.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -11,6 +11,7 @@ export class LocalIngredienteController {
   ) {}
 
   @Post()
+  @UsePipes(new ValidationPipe({ whitelist: true }))
   async createLocalIngrediente(
     @Body() localIngredienteDto: LocalIngredienteDto,
   ) {
