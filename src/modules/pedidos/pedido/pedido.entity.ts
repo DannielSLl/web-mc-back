@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { LocalEntity } from 'src/modules/local/local/local.entity';
 import { PedidoDetalleEntity } from '../pedido-detalles/pedido-detalle.entity';
+import { ClienteEntity } from 'src/modules/clientes/cliente.entity';
 
 @Entity('pedidos')
 export class PedidoEntity {
@@ -18,4 +19,7 @@ export class PedidoEntity {
 
   @OneToMany(() => PedidoDetalleEntity, pedidoDetalle => pedidoDetalle.pedido)
   detalles: PedidoDetalleEntity[];
+
+  @ManyToOne(() => ClienteEntity, clienteEntity => clienteEntity.pedidos)
+  cliente: ClienteEntity;
 }
