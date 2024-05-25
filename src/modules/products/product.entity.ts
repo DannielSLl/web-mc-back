@@ -9,6 +9,7 @@ import {
 import { CategoriaEntity } from '../categoria/categoria.entity';
 import { IngredientesProductosEntity } from '../ingredientes/ingredienteProducto/ingredientes-productos.entity';
 import { LocalProductoEntity } from '../local/local-producto/local-producto.entity';
+import { PedidoDetalleEntity } from '../pedidos/pedido-detalles/pedido-detalle.entity';
 
 @Entity({ name: 'productos' })
 export class ProductEntity {
@@ -45,4 +46,10 @@ export class ProductEntity {
     (localProductoEntity) => localProductoEntity.producto,
   )
   localProductoEntity: LocalProductoEntity[];
+
+  @OneToMany(
+    () => PedidoDetalleEntity,
+    (pedidoDetalle) => pedidoDetalle.producto
+  )
+  detalles: PedidoDetalleEntity[];
 }
