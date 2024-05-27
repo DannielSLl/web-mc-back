@@ -1,9 +1,7 @@
 import { Controller, Get, Post, Param, Body, Put, Res, Delete, ParseIntPipe } from '@nestjs/common';
-import { IGetClienteResponse } from './dto/iGetClienteResponse';
-import { IPostClienteRequest } from './dto/iPostClienteRequest';
+
 import { IPostClienteResponse } from './dto/iPostClienteResponse';
-import { Response } from 'express'; // Importa Response desde express
-import { IPutClienteRequest } from './dto/iPutClienteRequest';
+
 import { ClientesService } from './clientes.service';
 import { ClienteEntity } from './cliente.entity';
 import { ClienteDTO } from './dto/cliente.dto';
