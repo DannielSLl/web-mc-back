@@ -20,6 +20,9 @@ import { join } from 'path';
             ssl: {
               rejectUnauthorized: false,
             },
+            extra: {
+              ssl: false,
+            }
           }),
           inject: [ConfigService],
         }),

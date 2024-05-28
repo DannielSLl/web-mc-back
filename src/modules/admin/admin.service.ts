@@ -35,4 +35,15 @@ export class AdminService {
 
         return await this.adminRepository.save(result);
     }
+
+    public async findOneByEmail(email: string): Promise <AdminEntity> {
+        try {
+            return await this.adminRepository.createQueryBuilder('admin').where(
+                'admin.email = :email', {email}
+            ).getOne()
+        }
+        catch(error: any) {
+            throw new Error("Error al buscar al admin por su correo electrónico");
+        }
+    }
 }
