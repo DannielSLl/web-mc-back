@@ -57,5 +57,8 @@ import { AdminService } from './modules/admin/admin.service';
     AuthService,
     AdminService,
   ],
+  exports: [
+    JwtModule,
+  ]
 })
 export class AppModule {}

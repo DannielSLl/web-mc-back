@@ -39,7 +39,7 @@ export class AuthService {
     //Agregar luego para empleado
 
     if (user && await bcrypt.compare(password, user.password)) {
-      const payload = { email: user.email, userType };
+      const payload = { userID: user.id, email: user.email, userType };
       return this.jwtService.sign(payload);
     } else {
       throw new UnauthorizedException('Credenciales inválidas');
