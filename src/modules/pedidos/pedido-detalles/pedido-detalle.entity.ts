@@ -7,7 +7,7 @@ export class PedidoDetalleEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('number')
   cantidad: number;
 
   @ManyToOne(() => PedidoEntity, pedido => pedido.detalles)

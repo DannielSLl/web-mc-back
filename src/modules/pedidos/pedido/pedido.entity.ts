@@ -8,7 +8,7 @@ export class PedidoEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('number')
   precioTotal: number;
 
   @Column()

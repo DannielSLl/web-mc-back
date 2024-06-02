@@ -9,7 +9,7 @@ import { AdminService } from './admin.service';
 //otros
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import * as bcrypt from 'bcryptjs';
-
+@ApiTags('admin')
 @Controller('admin')
 export class AdminController {
 
@@ -22,11 +22,15 @@ export class AdminController {
     }
 
     @Get(':id')
-    public async getCliente(@Param('id', ParseIntPipe) id: number){
+    public async getAdmin(@Param('id', ParseIntPipe) id: number){
         return await this.adminService.getAdmin(id);
     }
 
     @Post()
+    @ApiOperation({ summary: 'Registrar un nuevo administrador al sistema' })
+    @ApiResponse({ status: 201, description: 'Administrador registrado exitosamente' })
+    @ApiResponse({ status: 400, description: 'Datos inválidos' })
+    @ApiBody({ type: AdminDTO })
     async postCliente(@Body() request: AdminDTO): Promise<PostAdminResponse> {
         const response: PostAdminResponse = {
             data: null,
