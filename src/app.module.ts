@@ -24,6 +24,9 @@ import { PedidoEntity } from './modules/pedidos/pedido/pedido.entity';
 import { PedidoDetalleEntity } from './modules/pedidos/pedido-detalles/pedido-detalle.entity';
 import { PedidoService } from './modules/pedidos/pedido/pedido.service';
 import { ProductEntity } from './modules/products/product.entity';
+import { AdminEntity } from './modules/admin/admin.entity';
+import { AdminController } from './modules/admin/admin.controller';
+import { AdminService } from './modules/admin/admin.service';
 
 @Module({
   imports: [
@@ -38,7 +41,8 @@ import { ProductEntity } from './modules/products/product.entity';
       EmployeesEntity,
       PedidoEntity,
       PedidoDetalleEntity,
-      ProductEntity
+      ProductEntity,
+      AdminEntity,
     ]),
     JwtModule.register({
       secret: 'clave_secreta', //Cambiar luego
@@ -52,6 +56,7 @@ import { ProductEntity } from './modules/products/product.entity';
     EmployeesController,
     AuthController,
     PedidoController,
+    AdminController,
   ],
   providers: [
     AppService,
@@ -59,7 +64,11 @@ import { ProductEntity } from './modules/products/product.entity';
     CategoriaService,
     EmployeesService,
     AuthService,
-    PedidoService
+    PedidoService,
+    AdminService,
   ],
+  exports: [
+    JwtModule,
+  ]
 })
 export class AppModule {}

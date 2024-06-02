@@ -17,9 +17,12 @@ import { join } from 'path';
             entities: [join(process.cwd(), 'dist/**/*.entity{.ts,.js}')],
             synchronize: true,
             autoLoadEntities : true,
-            
-            ssl: false,
-
+            ssl: {
+              rejectUnauthorized: false,
+            },
+            extra: {
+              ssl: false,
+            }
           }),
           inject: [ConfigService],
         }),
