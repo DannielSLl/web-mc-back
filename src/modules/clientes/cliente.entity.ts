@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { PedidoEntity } from "../pedidos/pedido/pedido.entity";
 
 @Entity({name: "clientes"})
 export class ClienteEntity {
@@ -14,12 +15,15 @@ export class ClienteEntity {
     @Column({type: 'varchar', unique: true})
     email: string;
 
-    @Column({type: 'float'})
+    @Column({type: 'number'})
     phone: number;
 
     @Column({type: 'varchar'})
     password: string;
 
-    @Column({type: 'float'})
+    @Column({type: 'number'})
     puntos: number;
+
+    @OneToMany(() => PedidoEntity, pedidoEntity => pedidoEntity.local)4
+    pedidos: PedidoEntity[];
 }

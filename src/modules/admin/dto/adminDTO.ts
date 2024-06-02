@@ -1,8 +1,9 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
-export class ClienteDTO {
+
+export class AdminDTO {
     @ApiProperty({
-        description: 'Nombre del usuario',
+        description: 'Nombre del usuairo administrador',
         example: 'John',
       })
     @IsNotEmpty()
@@ -10,7 +11,7 @@ export class ClienteDTO {
     name: string;
     
     @ApiProperty({
-        description: 'Apellido del usuario',
+        description: 'Apellido del usuario administrador',
         example: 'Doe',
       })
     @IsNotEmpty()
@@ -18,24 +19,16 @@ export class ClienteDTO {
     lastname: string;
     
     @ApiProperty({
-        description: 'Correo electrónico del usuario',
-        example: 'usuario@example.com',
+        description: 'Email del administrador',
+        example: 'admin@example.com',
       })
     @IsNotEmpty()
     @IsEmail()
     email: string;
     
     @ApiProperty({
-        description: 'Numero celular del usuario',
-        example: '+56 9xxxxxxxx',
-      })
-    @IsNotEmpty()
-    @IsNumber()
-    phone: number;
-    
-    @ApiProperty({
-        description: 'Contraseña de la cuenta del usuario',
-        example: 'password123',
+        description: 'Contraseña del administrador',
+        example: 'admin123',
       })
     @IsNotEmpty()
     @IsString()
