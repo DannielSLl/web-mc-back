@@ -33,16 +33,16 @@ export class ProductService {
     return product;
   }
 
-  async findByNombre(nombre: string): Promise<ProductEntity> {
+  async findByNombre(nombre: string): Promise<Boolean> {
     const producto = await this.productRepository
       .createQueryBuilder('productos')
       .where('productos.nombre = :nombre', { nombre })
       .getOne();
-
+    let existe = true;
     if (!producto) {
-      throw new NotFoundException({message: `Producto con nombre ${nombre} no encontrado`});
+      existe = false;
     }
-    return producto;
+    return existe;
   }
 
   async create(dto: ProductDto): Promise<any> {

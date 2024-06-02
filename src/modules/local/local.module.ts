@@ -40,5 +40,7 @@ import { CategoriaEntity } from '../categoria/categoria.entity';
     ProductService,
     CategoriaService
   ],
+  exports: [TypeOrmModule],
 })
 export class LocalModule {}
+

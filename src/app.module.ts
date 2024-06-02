@@ -19,6 +19,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
 import { LocalModule } from './modules/local/local.module';
 import { ProductsModule } from './modules/products/products.module';
+import { PedidoController } from './modules/pedidos/pedido/pedido.controller';
+import { PedidoEntity } from './modules/pedidos/pedido/pedido.entity';
+import { PedidoDetalleEntity } from './modules/pedidos/pedido-detalles/pedido-detalle.entity';
+import { PedidoService } from './modules/pedidos/pedido/pedido.service';
+import { ProductEntity } from './modules/products/product.entity';
 
 @Module({
   imports: [
@@ -31,6 +36,9 @@ import { ProductsModule } from './modules/products/products.module';
       ClienteEntity,
       CategoriaEntity,
       EmployeesEntity,
+      PedidoEntity,
+      PedidoDetalleEntity,
+      ProductEntity
     ]),
     JwtModule.register({
       secret: 'clave_secreta', //Cambiar luego
@@ -43,6 +51,7 @@ import { ProductsModule } from './modules/products/products.module';
     CategoriaController,
     EmployeesController,
     AuthController,
+    PedidoController,
   ],
   providers: [
     AppService,
@@ -50,6 +59,7 @@ import { ProductsModule } from './modules/products/products.module';
     CategoriaService,
     EmployeesService,
     AuthService,
+    PedidoService
   ],
 })
 export class AppModule {}

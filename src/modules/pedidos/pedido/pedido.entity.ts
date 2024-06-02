@@ -9,11 +9,21 @@ export class PedidoEntity {
   id: number;
 
   @Column()
+  precioTotal: number;
+
+  @Column()
   fecha: Date;
 
   @Column()
-  estado: string;
+  fechaEntrega: Date;
 
+  @Column()
+  estado: boolean;
+
+  @Column()
+  metodoPago: string;
+
+  //relaciones
   @ManyToOne(() => LocalEntity, local => local.pedidos)
   local: LocalEntity;
 
