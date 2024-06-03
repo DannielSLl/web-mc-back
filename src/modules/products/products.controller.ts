@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { ProductDto } from './dto/product.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger'; // Importa los decoradores de Swagger
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger'; 
 
 @ApiTags('productos')
 @Controller('products')
