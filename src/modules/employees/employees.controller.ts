@@ -6,7 +6,7 @@ import { UpdateResult } from 'typeorm';
 import { EmployeesDTO } from './dto/employees.dto';
 import { EmployeesEntity } from './employees.entity';
 import { EmployeesUpdateDTO } from './dto/EmployeesUpdateDTO';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger'; // Importa los decoradores de Swagger
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger'; 
 
 @ApiTags('empleados')
 @Controller('empleados')

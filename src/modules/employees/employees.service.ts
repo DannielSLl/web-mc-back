@@ -58,9 +58,6 @@ export class EmployeesService {
     dto.email 
         ? (employee.email = dto.email)
         : (employee.email = employee.email);
-
-   // dto.password ? employee.password = dto.password : employee.password = employee.password
-   // dto.role ? employee.role = dto.role : employee.role = employee.role;
    
     await this.employeesRepository.save(employee);
     return {message: `Empleado actualizado.`}

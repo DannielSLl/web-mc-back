@@ -1,7 +1,5 @@
-import { Controller, Get, Post, Param, Body, Put, Res, Delete, ParseIntPipe } from '@nestjs/common';
-
+import { Controller, Get, Post, Param, Body, Put, Delete, ParseIntPipe } from '@nestjs/common';
 import { IPostClienteResponse } from './dto/iPostClienteResponse';
-
 import { ClientesService } from './clientes.service';
 import { ClienteEntity } from './cliente.entity';
 import { ClienteDTO } from './dto/cliente.dto';
@@ -45,10 +43,8 @@ export class ClientesController {
         };
 
         if (request) {
-            //Encriptar contraseña 
             const hashedPassword = await bcrypt.hash(request.password, 10);
 
-            //Crear nuevo usuario
             const newCliente: ClienteEntity = {
                 name: request.name,
                 lastname: request.lastname,

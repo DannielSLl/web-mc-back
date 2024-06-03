@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Admin, Repository, UpdateResult } from 'typeorm';
-//Entity
+import { Repository, UpdateResult } from 'typeorm';
 import { AdminEntity } from './admin.entity';
-//dto
+
 @Injectable()
 export class AdminService {
     constructor(
