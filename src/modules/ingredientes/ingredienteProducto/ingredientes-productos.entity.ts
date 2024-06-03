@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IngredientesEntity } from '../ingredientes/ingredientes.entity';
