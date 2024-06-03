@@ -7,9 +7,12 @@ import { LocalEntity } from 'src/modules/local/local/local.entity';
 import { ClienteEntity } from 'src/modules/clientes/cliente.entity';
 import { PedidoDetalleEntity } from '../pedido-detalles/pedido-detalle.entity';
 import { ProductEntity } from 'src/modules/products/product.entity';
+import { PedidoPendienteDTO } from './dto/pedidoPendiente.dto';
+import { PedidoDetalleDTO } from '../pedido-detalles/dto/pedido-detalle.dto';
 
 @Injectable()
 export class PedidoService {
+  
   constructor(
     @InjectRepository(PedidoEntity)
     private readonly pedidoRepository: Repository<PedidoEntity>,
@@ -59,5 +62,29 @@ export class PedidoService {
     }
 
     return savedPedido;
+  }
+
+  getPedidosPedientes(): Promise<PedidoPendienteDTO[]> {
+    let pedidos = this.pedidoRepository.find({ where: { estado: false }, relations: ['cliente', 'detalles']}
+      
+    );
+    if (!pedidos) {
+      throw new Error('No hay pedidos pendientes');
+    }
+    return pedidos.then((pedidos) => {
+      return pedidos.map((pedido) => {
+        return {
+          id: pedido.id,
+          client: pedido.cliente.name,
+          date: pedido.fecha,
+          items: pedido.detalles.length,
+          status: pedido.estado,
+        };
+      });
+    });
+  }
+
+  markToComplete(pedidoId: number) {
+    return this.pedidoRepository.update({ id: pedidoId }, { estado: true });
   }
 }

@@ -32,6 +32,17 @@ export class ProductService {
     }
     return product;
   }
+  async findByCategoria(categoriaId: number): Promise<ProductEntity[]> {
+    const productos = await this.productRepository.find({
+      where: { categoria: { id: categoriaId } },
+    });
+    if (!productos.length) {
+      throw new NotFoundException(
+        `No hay productos en la categoría con ID ${categoriaId}`,
+      );
+    }
+    return productos;
+  }
 
   async findByNombre(nombre: string): Promise<Boolean> {
     const producto = await this.productRepository

@@ -34,6 +34,11 @@ export class ProductsController {
     return await this.productService.findById(id);
   }
 
+  @Get('categoria/:categoriaId')
+  async findByCategoria(categoriaId: number) {
+    return await this.productService.findByCategoria(categoriaId);
+  }
+
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
   @ApiOperation({ summary: 'Crear un nuevo producto' }) 

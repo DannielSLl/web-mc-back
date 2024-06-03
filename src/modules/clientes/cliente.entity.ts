@@ -15,13 +15,13 @@ export class ClienteEntity {
     @Column({type: 'varchar', unique: true})
     email: string;
 
-    @Column({type: 'number'})
+    @Column({type: 'int'})
     phone: number;
 
     @Column({type: 'varchar'})
     password: string;
 
-    @Column({type: 'number'})
+    @Column({type: 'int'})
     puntos: number;
 
     @OneToMany(() => PedidoEntity, pedidoEntity => pedidoEntity.local)4
