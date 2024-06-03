@@ -41,8 +41,8 @@ import { AdminService } from './modules/admin/admin.service';
 
 import { ProductosFavModule } from './modules/productos-fav/productos-fav.module';
 import { ProductoFavEntity } from './modules/productos-fav/producto-fav.entity';
-import { ProductosFavController } from 'dist/modules/productos-fav/productos-fav.controller';
 import { ProductosFavService } from './modules/productos-fav/productos-fav.service';
+import { ProductosFavController } from './modules/productos-fav/productos-fav.controller';
 
 
 @Module({
