@@ -12,7 +12,9 @@ export class CategoriaService {
   ) {}
 
   async getAll(): Promise<CategoriaEntity[]> {
-    const list = await this.categoriaRepository.find();
+    const list = await this.categoriaRepository
+      .createQueryBuilder('categorias')
+      .getMany();
     if (!list.length) {
       throw new NotFoundException({ message: 'Lista esta vacia' });
     }

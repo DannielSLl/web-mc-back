@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { ProductDto } from './dto/product.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger'; // Importa los decoradores de Swagger
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger'; 
 
 @ApiTags('productos')
 @Controller('products')
@@ -27,11 +27,16 @@ export class ProductsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obtener un producto por su ID' }) // Descripción del endpoint
-  @ApiParam({ name: 'id', type: 'number', description: 'ID del producto' }) // Descripción del parámetro
-  @ApiResponse({ status: 200, description: 'Producto encontrado.', type: ProductDto }) // Descripción de la respuesta
+  @ApiOperation({ summary: 'Obtener un producto por su ID' }) 
+  @ApiParam({ name: 'id', type: 'number', description: 'ID del producto' }) 
+  @ApiResponse({ status: 200, description: 'Producto encontrado.', type: ProductDto }) 
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return await this.productService.findById(id);
+  }
+
+  @Get('categoria/:categoriaId')
+  async findByCategoria(categoriaId: number) {
+    return await this.productService.findByCategoria(categoriaId);
   }
 
   @UsePipes(new ValidationPipe({ whitelist: true }))

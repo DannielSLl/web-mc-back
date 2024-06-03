@@ -1,9 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './product.entity';
 import { Repository } from 'typeorm';
 import { ProductDto } from './dto/product.dto';
-import { dot } from 'node:test/reporters';
 import { CategoriaService } from '../categoria/categoria.service';
 
 @Injectable()
@@ -23,34 +26,67 @@ export class ProductService {
   }
 
   async findById(id: number): Promise<ProductEntity> {
-    const producto = await this.productRepository
-      .createQueryBuilder('productos')
-      .where('productos.producto_id = :id', { id })
-      .getOne();
-    if (!producto) {
-      throw new NotFoundException({ message: 'No existe' });
+    const product = await this.productRepository.findOne({ where: { id } });
+    if (!product) {
+      throw new NotFoundException( { message: `Producto con ID ${id} no encontrado`});
     }
-    return producto;
+    return product;
+  }
+  async findByCategoria(categoriaId: number): Promise<ProductEntity[]> {
+    const productos = await this.productRepository.find({
+      where: { categoria: { id: categoriaId } },
+    });
+    if (!productos.length) {
+      throw new NotFoundException(
+        `No hay productos en la categoría con ID ${categoriaId}`,
+      );
+    }
+    return productos;
   }
 
-  async findByNombre(nombre: string): Promise<ProductEntity> {
+  async findByNombre(nombre: string): Promise<Boolean> {
     const producto = await this.productRepository
       .createQueryBuilder('productos')
       .where('productos.nombre = :nombre', { nombre })
       .getOne();
-    return producto;
+    let existe = true;
+    if (!producto) {
+      existe = false;
+    }
+    return existe;
   }
 
   async create(dto: ProductDto): Promise<any> {
-    const categoria = await this.categoriaService.findById(dto.categoria);
-    if (categoria.nombre) {
-      const producto = this.productRepository.create(dto);
+    const existingProduct = await this.findByNombre(dto.nombre);
+    if (existingProduct) {
+      throw new ConflictException(
+        `El producto con nombre "${dto.nombre}" ya existe.`,
+      );
+    }
+
+    const categoria = await this.categoriaService.findById(dto.categoriaId);
+    if (categoria) {
+      const producto = this.productRepository.create({
+        ...dto,
+        categoria: categoria,
+      });
       await this.productRepository.save(producto);
       return { message: `Producto ${producto.nombre} creado` };
+    } else {
+      throw new NotFoundException(
+        `La categoría con id ${dto.categoriaId} no existe.`,
+      );
     }
   }
 
   async update(id: number, dto: ProductDto): Promise<any> {
+    const existingProduct = await this.findByNombre(dto.nombre);
+    if (existingProduct) {
+      throw new ConflictException(
+        `El producto con nombre "${dto.nombre}" ya existe.`,
+      );
+    }
+
     const producto = await this.findById(id);
     dto.nombre
       ? (producto.nombre = dto.nombre)

@@ -1,10 +1,21 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { CategoriaEntity } from '../categoria/categoria.entity';
+import { IngredientesProductosEntity } from '../ingredientes/ingredienteProducto/ingredientes-productos.entity';
+import { LocalProductoEntity } from '../local/local-producto/local-producto.entity';
+import { PedidoDetalleEntity } from '../pedidos/pedido-detalles/pedido-detalle.entity';
+import { ProductoFavEntity } from '../productos-fav/producto-fav.entity';
 
 @Entity({ name: 'productos' })
 export class ProductEntity {
   @PrimaryGeneratedColumn()
-  producto_id: number;
+  id: number;
 
   @Column({ type: 'varchar' })
   nombre: string;
@@ -12,15 +23,37 @@ export class ProductEntity {
   @Column({ type: 'varchar' })
   description: string;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'int' })
   precio: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'int' })
   calorias: number;
-
-  @Column({ type: 'float' })
-  categoria: number;
 
   @Column({ type: 'varchar' })
   img: string;
+
+  @ManyToOne(() => CategoriaEntity, (categoria) => categoria.productEntity)
+  @JoinColumn({ name: 'categoriaId' })
+  categoria: CategoriaEntity;
+
+  @OneToMany(
+    () => IngredientesProductosEntity,
+    (ingredientesProductosEntity) => ingredientesProductosEntity.producto,
+  )
+  ingredientesProductosEntity: IngredientesProductosEntity[];
+
+  @OneToMany(
+    () => LocalProductoEntity,
+    (localProductoEntity) => localProductoEntity.producto,
+  )
+  localProductoEntity: LocalProductoEntity[];
+
+  @OneToMany(
+    () => PedidoDetalleEntity,
+    (pedidoDetalle) => pedidoDetalle.producto
+  )
+  detalles: PedidoDetalleEntity[];
+
+  @OneToMany(() => ProductoFavEntity, productoFav => productoFav.producto)
+  productosFav: ProductoFavEntity[];
 }
