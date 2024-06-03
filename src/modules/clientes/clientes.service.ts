@@ -40,7 +40,6 @@ export class ClientesService {
         const result: UpdateResult = await this.clienteRepository.update(id, cliente);
 
         if (result.affected == 0) {
-            //No se realizo ningun cambio
             return undefined;
         }
         return result;

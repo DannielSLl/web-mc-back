@@ -43,10 +43,8 @@ export class ClientesController {
         };
 
         if (request) {
-            //Encriptar contraseña 
             const hashedPassword = await bcrypt.hash(request.password, 10);
 
-            //Crear nuevo usuario
             const newCliente: ClienteEntity = {
                 name: request.name,
                 lastname: request.lastname,

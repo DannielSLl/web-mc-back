@@ -1,11 +1,14 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsInt, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProductoFavDto {
+  @IsInt()
   @IsNotEmpty()
-  @IsNumber()
-  productId: number;
-
-  @IsNotEmpty()
-  @IsNumber()
+  @ApiProperty({ description: 'ID del usuario' })
   userId: number;
+
+  @IsInt()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'ID del producto' })
+  productId: number;
 }

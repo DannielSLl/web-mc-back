@@ -27,9 +27,9 @@ export class ProductsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obtener un producto por su ID' }) // Descripción del endpoint
-  @ApiParam({ name: 'id', type: 'number', description: 'ID del producto' }) // Descripción del parámetro
-  @ApiResponse({ status: 200, description: 'Producto encontrado.', type: ProductDto }) // Descripción de la respuesta
+  @ApiOperation({ summary: 'Obtener un producto por su ID' }) 
+  @ApiParam({ name: 'id', type: 'number', description: 'ID del producto' }) 
+  @ApiResponse({ status: 200, description: 'Producto encontrado.', type: ProductDto }) 
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return await this.productService.findById(id);
   }
