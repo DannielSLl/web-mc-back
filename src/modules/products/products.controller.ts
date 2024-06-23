@@ -26,10 +26,10 @@ export class ProductsController {
     return await this.productService.getAll();
   }
 
-  @Get(':local')
+  @Get('local/:localId')
   @ApiOperation({ summary: 'Obtener los productos disponibles de un local' })
   @ApiResponse({ status: 200, description: 'Productos encontrados.', type: ProductDto, isArray: true })
-  async getByLocal(@Param('local', ParseIntPipe) id: number) {
+  async getByLocal(@Param('localId', ParseIntPipe) id: number) {
     return await this.productService.getByLocal(id);
   }
 
