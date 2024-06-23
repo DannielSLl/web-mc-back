@@ -32,7 +32,8 @@ export class ProductEntity {
   @Column({ type: 'varchar' })
   img: string;
 
-  @ManyToOne(() => CategoriaEntity, (categoria) => categoria.productEntity)
+  @ManyToOne(() => CategoriaEntity, (categoria) => categoria.productEntity,
+    { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'categoriaId' })
   categoria: CategoriaEntity;
 
@@ -54,6 +55,7 @@ export class ProductEntity {
   )
   detalles: PedidoDetalleEntity[];
 
-  @OneToMany(() => ProductoFavEntity, productoFav => productoFav.producto)
+  @OneToMany(() => ProductoFavEntity, productoFav => productoFav.producto,
+    { onDelete: 'CASCADE' })
   productosFav: ProductoFavEntity[];
 }

@@ -22,6 +22,7 @@ export class IngredientesProductosEntity {
   @ManyToOne(
     () => ProductEntity,
     (producto) => producto.ingredientesProductosEntity,
+    { onDelete: 'CASCADE'}
   )
   @JoinColumn({ name: 'producto_id' })
   producto: ProductEntity;
@@ -29,6 +30,7 @@ export class IngredientesProductosEntity {
   @ManyToOne(
     () => IngredientesEntity,
     (ingredientes) => ingredientes.ingredientesProductosEntity,
+    { onDelete: 'CASCADE'}
   )
   @JoinColumn({ name: 'ingrediente_id' })
   ingrediente: IngredientesEntity;

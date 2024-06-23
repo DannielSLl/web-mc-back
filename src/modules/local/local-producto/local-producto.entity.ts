@@ -8,7 +8,7 @@ import {
 import { LocalEntity } from '../local/local.entity';
 import { ProductEntity } from 'src/modules/products/product.entity';
 
-@Entity('local_ingrediente')
+@Entity('local_producto')
 export class LocalProductoEntity {
   @PrimaryGeneratedColumn()
   id: number;
