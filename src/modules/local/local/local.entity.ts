@@ -11,7 +11,7 @@ export class LocalEntity {
   @Column({ type: 'varchar', length: 50, nullable: false, unique: true })
   nombre: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, unique: true })
+  @Column({ type: 'varchar', length: 50, nullable: false })
   ciudad: string;
 
   @Column({ type: 'varchar', length: 100, nullable: false, unique: true })

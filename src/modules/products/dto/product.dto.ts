@@ -17,6 +17,10 @@ export class ProductDto {
   calorias: number;
 
   @IsNumber()
+  @IsNotEmpty({ message: 'el local no puede estar vacio' })
+  localId: number;
+
+  @IsNumber()
   @IsNotEmpty({ message: 'la categoria no puede estar vacia' })
   categoriaId: number;
 
