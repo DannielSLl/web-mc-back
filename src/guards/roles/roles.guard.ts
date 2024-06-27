@@ -38,8 +38,6 @@ export class RolesGuard implements CanActivate {
       );
 
       request['user'] = payload;
-      console.log(payload)
-      console.log(request['user'])
     } catch {
       throw new UnauthorizedException();
     }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Put, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Param, Body, Put, Delete, ParseIntPipe, UseGuards, HttpException } from '@nestjs/common';
 import { IPostClienteResponse } from './dto/iPostClienteResponse';
 import { ClientesService } from './clientes.service';
 import { ClienteEntity } from './cliente.entity';
@@ -7,9 +7,13 @@ import { ClienteUpdateDTO } from './dto/clienteUpdateDTO';
 import { UpdateResult } from 'typeorm';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import * as bcrypt from 'bcryptjs';
+
+
 import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { Request } from 'express';
+import { AuthenticatedUser } from '../auth/user.interface';
 
 @ApiBearerAuth()
 @ApiTags('clientes')
@@ -18,8 +22,6 @@ export class ClientesController {
 
     constructor(private clienteService: ClientesService) {}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
     @Get()
     @ApiOperation({ summary: 'Obtener todos los clientes' })
     @ApiResponse({ status: 200, description: 'Clientes encontrados.', type: ClienteEntity, isArray: true }) 
@@ -65,6 +67,8 @@ export class ClientesController {
         }
     }
     
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'cliente')
     @Put(':id')
     @ApiOperation({ summary: 'Actualizar un cliente existente por su ID' }) 
     @ApiParam({ name: 'id', type: 'number', description: 'ID del cliente' }) 
@@ -73,11 +77,18 @@ export class ClientesController {
     async putCliente(
         @Param('id') id: number,
         @Body() request: ClienteUpdateDTO,
+        @Req() req: Request,
     ): Promise<UpdateResult> {
-
-        return await this.clienteService.update(id, request);
+        const user = req.user as AuthenticatedUser
+        if ((user.userType == 'admin') || (user.userType == 'cliente' && user.id == id)) {
+            return await this.clienteService.update(id, request);
+        }else{
+            throw new HttpException("Not_Authorized", 403);
+        }
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Delete(':id')
     @ApiOperation({ summary: 'Eliminar un cliente por su ID' }) 
     @ApiParam({ name: 'id', type: 'number', description: 'ID del cliente' }) 

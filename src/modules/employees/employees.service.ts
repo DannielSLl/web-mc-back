@@ -68,4 +68,15 @@ export class EmployeesService {
     await this.employeesRepository.delete(employee);
     return {message: `Empleado eliminado.`}
   }
+
+  public async findOneByEmail(email: string): Promise <EmployeesEntity> {
+    try {
+        return await this.employeesRepository.createQueryBuilder('empleados').where(
+            'empleados.email = :email', {email}
+        ).getOne()
+    }
+    catch(error: any) {
+        throw new Error("Error al buscar el cliente por su correo electrónico");
+    }
+}
 }

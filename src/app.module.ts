@@ -47,9 +47,9 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
 
 import { jwtConstanst } from './jwtConstants';
 import { JwtStrategy } from './modules/auth/jtw.strategy';
-import { RolesGuard } from './guards/roles/roles.guard';
-import { JwtAuthGuard } from './guards/auth/auth.guard';
 
+import { JwtAuthGuard } from './guards/auth/auth.guard';
+import { RolesGuard } from './guards/roles/roles.guard';
 
 @Module({
   imports: [
