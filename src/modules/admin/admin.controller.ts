@@ -10,7 +10,6 @@ import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 
-import { Request } from 'express';
 
 @ApiBearerAuth()
 @ApiTags('Admin')
