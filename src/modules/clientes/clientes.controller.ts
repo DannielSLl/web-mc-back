@@ -7,18 +7,18 @@ import { ClienteUpdateDTO } from './dto/clienteUpdateDTO';
 import { UpdateResult } from 'typeorm';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import * as bcrypt from 'bcryptjs';
-import { jwtAuthGuard } from 'src/guards/auth/auth.guard';
+import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 
-
+@ApiBearerAuth()
 @ApiTags('clientes')
 @Controller('clientes')
 export class ClientesController {
 
     constructor(private clienteService: ClientesService) {}
 
-    @UseGuards(jwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     @Get()
     @ApiOperation({ summary: 'Obtener todos los clientes' })

@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards, Us
 import { ApiTags, ApiResponse, ApiParam, ApiBody, ApiOperation } from '@nestjs/swagger'; 
 import { CategoriaService } from './categoria.service';
 import { CategoriaDto } from './dto/categoria.dto';
-import { jwtAuthGuard } from 'src/guards/auth/auth.guard';
 
 @ApiTags('categoria')
 @Controller('categoria')
