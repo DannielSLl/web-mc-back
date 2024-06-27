@@ -1,12 +1,15 @@
-import { Controller, Get, Post, Param, Body, Put, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { IPostClienteResponse } from './dto/iPostClienteResponse';
 import { ClientesService } from './clientes.service';
 import { ClienteEntity } from './cliente.entity';
 import { ClienteDTO } from './dto/cliente.dto';
 import { ClienteUpdateDTO } from './dto/clienteUpdateDTO';
 import { UpdateResult } from 'typeorm';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import * as bcrypt from 'bcryptjs';
+import { jwtAuthGuard } from 'src/guards/auth/auth.guard';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 
 @ApiTags('clientes')
@@ -15,6 +18,8 @@ export class ClientesController {
 
     constructor(private clienteService: ClientesService) {}
 
+    @UseGuards(jwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Get()
     @ApiOperation({ summary: 'Obtener todos los clientes' })
     @ApiResponse({ status: 200, description: 'Clientes encontrados.', type: ClienteEntity, isArray: true }) 

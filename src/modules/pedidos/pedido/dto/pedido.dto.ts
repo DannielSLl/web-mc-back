@@ -44,11 +44,6 @@ export class PedidoDTO {
     metodoPago: string;
     
     @ApiProperty({
-        description: 'ayuda aqui',
-        example: 'ayuda aqui',
-      })
-
-      @ApiProperty({
         description: 'Detalles del pedido',
         type: [PedidoDetalleDTO],
         example: [

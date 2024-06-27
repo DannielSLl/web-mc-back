@@ -45,6 +45,11 @@ import { ProductosFavService } from './modules/productos-fav/productos-fav.servi
 import { ProductosFavController } from './modules/productos-fav/productos-fav.controller';
 
 
+import { jwtConstanst } from './jwtConstants';
+import { JwtStrategy } from './modules/auth/jtw.strategy';
+import { RolesGuard } from './guards/roles/roles.guard';
+
+
 @Module({
   imports: [
     LocalModule,
@@ -64,7 +69,7 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
       ProductoFavEntity
     ]),
     JwtModule.register({
-      secret: 'clave_secreta', //Cambiar luego
+      secret: jwtConstanst.secret, //Cambiar luego
       signOptions: { expiresIn: '24h' },
     }),
   ],
@@ -87,7 +92,9 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
     PedidoService,
     AdminService,
     ProductosFavService,
-    ProductService 
+    ProductService,
+    JwtStrategy,
+    RolesGuard
   ],
   exports: [
     JwtModule,
