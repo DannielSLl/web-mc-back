@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Delete, ParseIntPipe, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, Req, HttpException } from '@nestjs/common';
 import { IGetEmployeeResponse } from './dto/IGetEmployeeResponse';
 import { IPostEmployeeResponse } from './dto/IPostEmployeeResponse';
 import { EmployeesService } from './employees.service';
@@ -36,7 +36,8 @@ export class EmployeesController {
     public async getEmployee(@Param('id') id: number) {
         return await this.employeeService.getEmployeeId(id);
     }
-
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Post()
     @UsePipes(new ValidationPipe())
     @ApiOperation({ summary: 'Crear un nuevo empleado' }) 
@@ -67,6 +68,8 @@ export class EmployeesController {
         }
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'empleado')
     @Put(':id')
     @ApiOperation({ summary: 'Actualizar un empleado existente por su ID' }) 
     @ApiParam({ name: 'id', type: 'number', description: 'ID del empleado' }) 
@@ -75,11 +78,18 @@ export class EmployeesController {
     async putEmployee(
         @Param('id') id: number,
         @Body() request: EmployeesUpdateDTO,
+        @Req() req: Request,
     ): Promise<UpdateResult> {
-
-        return await this.employeeService.update(id, request);
+        const user = req.user as AuthenticatedUser
+        if ((user.userType == 'admin') || (user.userType == 'empleado' && user.id == id)) {
+            return await this.employeeService.update(id, request);
+        }else{
+            throw new HttpException("Not_Authorized", 403);
+        }
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Delete(':id')
     @ApiOperation({ summary: 'Eliminar un empleado por su ID' }) 
     @ApiParam({ name: 'id', type: 'number', description: 'ID del empleado' }) 
