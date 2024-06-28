@@ -6,7 +6,14 @@ import { UpdateResult } from 'typeorm';
 import { EmployeesDTO } from './dto/employees.dto';
 import { EmployeesEntity } from './employees.entity';
 import { EmployeesUpdateDTO } from './dto/EmployeesUpdateDTO';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger'; 
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import * as bcrypt from 'bcryptjs';
+
+import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Request } from 'express';
+import { AuthenticatedUser } from '../auth/user.interface';
 
 @ApiTags('empleados')
 @Controller('empleados')
@@ -44,12 +51,13 @@ export class EmployeesController {
         };
 
         if (request) {
+            const hashedPassword = await bcrypt.hash(request.password, 10)
             const newEmployee: EmployeesEntity = {
                 id: this.employees.length,
                 name: request.name,
                 lastname: request.lastname,
                 email: request.email,
-                password: request.password,
+                password: hashedPassword,
                 role: request.role,
             } as EmployeesEntity;
             
