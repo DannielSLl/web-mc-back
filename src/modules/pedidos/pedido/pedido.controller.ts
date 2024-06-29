@@ -17,10 +17,15 @@ import { AuthenticatedUser } from 'src/modules/auth/user.interface';
 @Controller('pedidos')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
-
+  
   @Get()
   async getPedidoPendiente(): Promise<PedidoPendienteDTO[]> {
     return await this.pedidoService.getPedidosPedientes();
+  }
+
+  @Get('all')
+  async getPedidos(): Promise<PedidoPendienteDTO[]> {
+    return await this.pedidoService.getPedidos();
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -42,7 +47,8 @@ export class PedidoController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('empleado')
   @Put(':id')
-  async markToComplete(@Param('id', ParseIntPipe) id: number) {
-    return await this.pedidoService.markToComplete(id);
+  async markToComplete(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const user = req.user as AuthenticatedUser;
+    return await this.pedidoService.markToComplete(id, user.id);
   }
 }

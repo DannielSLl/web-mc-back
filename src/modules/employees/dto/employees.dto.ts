@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEmail } from 'class-validator';
+import { IsNotEmpty, IsString, IsEmail, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class EmployeesDTO {
@@ -42,4 +42,12 @@ export class EmployeesDTO {
   @IsNotEmpty({ message: 'El rol es obligatorio' })
   @IsString()
   role: string;
+
+  @ApiProperty({ 
+    description: 'ID del local al que pertenece el empleado', 
+    example: 1
+  })
+  @IsNotEmpty({ message: 'El id del local es obligatorio' })
+  @IsNumber()
+  localId: number;
 }

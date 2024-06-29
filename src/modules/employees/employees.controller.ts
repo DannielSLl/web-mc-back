@@ -21,7 +21,10 @@ import { AuthenticatedUser } from '../auth/user.interface';
 export class EmployeesController {
     private employees: IGetEmployeeResponse[] = [];
 
-    constructor(private readonly employeeService: EmployeesService) {}
+    constructor(
+        private readonly employeeService: EmployeesService,
+    
+    ) {}
 
     @Get()
     @ApiOperation({ summary: 'Obtener todos los empleados' }) 
@@ -53,17 +56,7 @@ export class EmployeesController {
         };
 
         if (request) {
-            const hashedPassword = await bcrypt.hash(request.password, 10)
-            const newEmployee: EmployeesEntity = {
-                id: this.employees.length,
-                name: request.name,
-                lastname: request.lastname,
-                email: request.email,
-                password: hashedPassword,
-                role: request.role,
-            } as EmployeesEntity;
-            
-            await this.employeeService.create(newEmployee);
+            await this.employeeService.create(request);
 
             return response;
         }

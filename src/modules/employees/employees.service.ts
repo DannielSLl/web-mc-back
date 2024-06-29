@@ -4,19 +4,25 @@ import { Repository } from 'typeorm';
 import { EmployeesEntity } from './employees.entity';
 import { EmployeesDTO } from './dto/employees.dto';
 import { EmployeesUpdateDTO } from './dto/EmployeesUpdateDTO';
+import { LocalEntity } from '../local/local/local.entity';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class EmployeesService {
   constructor(
     @InjectRepository(EmployeesEntity)
     private readonly employeesRepository: Repository<EmployeesEntity>,
+    @InjectRepository(LocalEntity)
+    private readonly localRepository: Repository<LocalEntity>,
   ) {}
 
   public async getAllEmployees(): Promise<EmployeesEntity[]> {
-    const employees = await this.employeesRepository.find();
+    const employees = await this.employeesRepository.find({relations: ["local"]});
     if (!employees.length) {
       throw new NotFoundException('No se encontraron empleados.');
     }
+    console.log(employees)
+    
     return employees;
   }
 
@@ -25,6 +31,7 @@ export class EmployeesService {
     if (!employee) {
       throw new NotFoundException(`No se encontró ningún empleado con el ID ${id}`);
     }
+    console.log(employee)
     return employee;
   }
 
@@ -34,10 +41,24 @@ export class EmployeesService {
   }
 
   public async create(dto: EmployeesDTO): Promise<any> {
-    const exists = await this.getEmployeeName(dto.name);
-    if (exists) throw new BadRequestException({message: 'Ese nombre ya existe.'});
-    const employee = this.employeesRepository.create(dto);
-    await this.employeesRepository.save(employee);
+    const { name, lastname, email, password, role, localId} = dto
+    const exists = await this.getEmployeeName(email);
+    if (exists) throw new BadRequestException({message: 'Ese correo ya existe.'});
+
+    if (dto){
+      const local = await this.localRepository.findOne({ where: { id: +localId } });
+      const hashedPassword = await bcrypt.hash(password, 10)
+      const newEmployee = this.employeesRepository.create({
+        name: name,
+        lastname: lastname,
+        email: email,
+        password: hashedPassword,
+        role: role,
+        local: local
+      });
+      await this.employeesRepository.save(newEmployee);
+    } 
+    
     return {message: `Empleado creado con éxito.`};
   }  
 
