@@ -46,11 +46,12 @@ export class PedidoService {
       fechaEntrega,
       estado,
       metodoPago,
-      local,
+      local: local,
       cliente,
     });
 
     const savedPedido = await this.pedidoRepository.save(pedido);
+    console.log("Pedido guardado: ",savedPedido)
 
     for (const detalleDto of detalles) {
       const producto = await this.productRepository.findOne({ where: { id: +detalleDto.productoId } });
@@ -69,7 +70,7 @@ export class PedidoService {
   }
 
   getPedidosPedientes(): Promise<PedidoPendienteDTO[]> {
-    let pedidos = this.pedidoRepository.find({ where: { estado: false }, relations: ['cliente', 'detalles']}
+    let pedidos = this.pedidoRepository.find({ where: { estado: false }, relations: ['cliente', 'detalles', "local"]}
       
     );
     if (!pedidos) {
@@ -77,15 +78,13 @@ export class PedidoService {
     }
     return pedidos.then((pedidos) => {
       return pedidos.map((pedido) => {
-        console.log(pedido.cliente);
-        console.log(pedido.local);
         return {
           id: pedido.id,
-          client: pedido.cliente.id,
+          client: pedido.cliente.name,
           date: pedido.fecha,
           items: pedido.detalles.length,
           status: pedido.estado,
-          localId: pedido.local? pedido.local.id: null,
+          localId: pedido.local.id
         };
       });
     });

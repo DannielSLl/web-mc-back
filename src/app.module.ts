@@ -25,6 +25,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
 
 import { LocalModule } from './modules/local/local.module';
+import { LocalEntity } from './modules/local/local/local.entity';
 
 import { ProductsModule } from './modules/products/products.module';
 import { ProductService } from './modules/products/products.service';
@@ -51,6 +52,7 @@ import { JwtStrategy } from './modules/auth/jtw.strategy';
 import { JwtAuthGuard } from './guards/auth/auth.guard';
 import { RolesGuard } from './guards/roles/roles.guard';
 
+
 @Module({
   imports: [
     LocalModule,
@@ -67,7 +69,8 @@ import { RolesGuard } from './guards/roles/roles.guard';
       PedidoDetalleEntity,
       ProductEntity,
       AdminEntity,
-      ProductoFavEntity
+      ProductoFavEntity,
+      LocalEntity
     ]),
     JwtModule.register({
       secret: jwtConstanst.secret, //Cambiar luego
