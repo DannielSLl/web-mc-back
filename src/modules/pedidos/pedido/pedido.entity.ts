@@ -30,6 +30,6 @@ export class PedidoEntity {
   @OneToMany(() => PedidoDetalleEntity, pedidoDetalle => pedidoDetalle.pedido)
   detalles: PedidoDetalleEntity[];
 
-  @ManyToOne(() => ClienteEntity, clienteEntity => clienteEntity.pedidos)
+  @ManyToOne(() => ClienteEntity, clienteEntity => clienteEntity.pedidos, {eager: true})
   cliente: ClienteEntity;
 }

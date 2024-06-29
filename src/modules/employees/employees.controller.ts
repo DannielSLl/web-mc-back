@@ -6,15 +6,16 @@ import { UpdateResult } from 'typeorm';
 import { EmployeesDTO } from './dto/employees.dto';
 import { EmployeesEntity } from './employees.entity';
 import { EmployeesUpdateDTO } from './dto/EmployeesUpdateDTO';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import * as bcrypt from 'bcryptjs';
 
 import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+
 import { Request } from 'express';
 import { AuthenticatedUser } from '../auth/user.interface';
-
+@ApiBearerAuth()
 @ApiTags('empleados')
 @Controller('empleados')
 export class EmployeesController {
@@ -80,7 +81,7 @@ export class EmployeesController {
         @Body() request: EmployeesUpdateDTO,
         @Req() req: Request,
     ): Promise<UpdateResult> {
-        const user = req.user as AuthenticatedUser
+        const user = req.user as AuthenticatedUser;
         if ((user.userType == 'admin') || (user.userType == 'empleado' && user.id == id)) {
             return await this.employeeService.update(id, request);
         }else{

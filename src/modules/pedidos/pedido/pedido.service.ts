@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PedidoEntity } from './pedido.entity';
@@ -32,8 +32,12 @@ export class PedidoService {
     const local = await this.localRepository.findOne({ where: { id: +localId } });
     const cliente = await this.clienteRepository.findOne({ where: { id: +clienteId } });
 
-    if (!local || !cliente) {
-      throw new Error('Local or Cliente not found');
+    if (!local) {
+      throw new HttpException('Local not found', 404);
+    }
+
+    if (!cliente) {
+      throw new HttpException('Cliente not found', 404);
     }
 
     const pedido = this.pedidoRepository.create({
@@ -51,7 +55,7 @@ export class PedidoService {
     for (const detalleDto of detalles) {
       const producto = await this.productRepository.findOne({ where: { id: +detalleDto.productoId } });
       if (!producto) {
-        throw new Error('Product not found');
+        throw new HttpException('Product not found', 404);
       }
       const pedidoDetalle = this.pedidoDetalleRepository.create({
         cantidad: detalleDto.cantidad,
@@ -73,12 +77,15 @@ export class PedidoService {
     }
     return pedidos.then((pedidos) => {
       return pedidos.map((pedido) => {
+        console.log(pedido.cliente);
+        console.log(pedido.local);
         return {
           id: pedido.id,
-          client: pedido.cliente.name,
+          client: pedido.cliente.id,
           date: pedido.fecha,
           items: pedido.detalles.length,
           status: pedido.estado,
+          localId: pedido.local? pedido.local.id: null,
         };
       });
     });

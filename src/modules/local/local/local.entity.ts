@@ -29,9 +29,7 @@ export class LocalEntity {
   )
   localProductoEntity: LocalProductoEntity[];
 
-  @OneToMany(
-    () => PedidoEntity, 
-    (pedido) => pedido.local
+  @OneToMany(() => PedidoEntity, (pedido) => pedido.local
   )
   pedidos: PedidoEntity[];
 }
