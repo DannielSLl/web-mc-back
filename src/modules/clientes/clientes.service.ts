@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClienteEntity } from './cliente.entity';
 import { Repository, UpdateResult } from 'typeorm';
@@ -31,9 +31,12 @@ export class ClientesService {
     }
 
     public async create(cliente: ClienteEntity): Promise<ClienteEntity> {
-        const result = this.clienteRepository.create(cliente);
-
-        return await this.clienteRepository.save(result);
+        try{
+            const result = this.clienteRepository.create(cliente);
+            return await this.clienteRepository.save(result);
+        } catch{
+            throw new HttpException("Error", 404)
+        }
     }
 
     public async update(id: number, cliente: ClienteUpdateDTO): Promise<UpdateResult> {

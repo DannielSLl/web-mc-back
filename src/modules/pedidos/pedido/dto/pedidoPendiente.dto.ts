@@ -4,4 +4,5 @@ export class PedidoPendienteDTO {
   date: Date;
   items: number;
   status: boolean;
+  localId: number;
 }
