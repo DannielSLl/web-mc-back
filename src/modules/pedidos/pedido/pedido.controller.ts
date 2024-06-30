@@ -1,4 +1,3 @@
-// pedido.controller.ts
 import { Controller, Post, Body, Get, Put, ParseIntPipe, Param, UseGuards, Req, HttpException } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { PedidoDTO } from './dto/pedido.dto';
