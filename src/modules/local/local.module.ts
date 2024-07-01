@@ -23,6 +23,8 @@ import { LocalProductoController } from './local-producto/local-producto.control
 
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { ProductsModule } from '../products/products.module';
+import { jwtConstanst } from 'src/jwtConstants';
+import { JwtStrategy } from '../auth/jtw.strategy';
 
 @Module({
   imports: [
@@ -36,7 +38,7 @@ import { ProductsModule } from '../products/products.module';
     ]),
     forwardRef(() => ProductsModule),
     JwtModule.register({
-      secret: 'clave_secreta',
+      secret: jwtConstanst.secret,
       signOptions: { expiresIn: '24h' },
     }),
   ],
@@ -55,6 +57,10 @@ import { ProductsModule } from '../products/products.module';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtModule,
     },
   ],
   exports: [TypeOrmModule, LocalProductoService],

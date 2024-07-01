@@ -55,5 +55,6 @@ export class AuthController {
   ): Promise<{ token: string }> {
     const token = await this.authService.signIn(authCredentialsDto);
     return { token };
+  
   }
 }

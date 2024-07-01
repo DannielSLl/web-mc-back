@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalIngredienteEntity } from '../local-ingrediente/local-ingrediente.entity';
 import { LocalProductoEntity } from '../local-producto/local-producto.entity';
 import { PedidoEntity } from 'src/modules/pedidos/pedido/pedido.entity';
+import { EmployeesEntity } from 'src/modules/employees/employees.entity';
 
 @Entity('locales')
 export class LocalEntity {
@@ -29,9 +30,10 @@ export class LocalEntity {
   )
   localProductoEntity: LocalProductoEntity[];
 
-  @OneToMany(
-    () => PedidoEntity, 
-    (pedido) => pedido.local
+  @OneToMany(() => PedidoEntity, (pedido) => pedido.local
   )
   pedidos: PedidoEntity[];
+
+  @OneToMany(() => EmployeesEntity, employee => employee.local)
+  empleados: EmployeesEntity[];
 }
