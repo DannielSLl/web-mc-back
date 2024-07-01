@@ -21,7 +21,6 @@ export class PedidoEntity {
   @Column()
   estado: boolean;
 
-  //relaciones
   @ManyToOne(() => LocalEntity, local => local.pedidos)
   local: LocalEntity;
 
