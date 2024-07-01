@@ -1,5 +1,5 @@
 import { LocalService } from './../local/local.service';
-import { ConflictException, forwardRef, Inject, Injectable } from '@nestjs/common';
+import { ConflictException, forwardRef, Inject, Injectable, Delete } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { LocalProductoEntity } from './local-producto.entity';

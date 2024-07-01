@@ -15,6 +15,11 @@ export class PedidoController {
     return await this.pedidoService.getPedidosPedientes();
   }
 
+  @Get(':id') 
+  async getPedidoDetail(@Param('id', ParseIntPipe) id: number) {
+    return await this.pedidoService.getPedidoDetail(id);
+  }
+
   @Post()
   @ApiOperation({ summary: 'Crear un nuevo pedido' })
   @ApiResponse({ status: 201, description: 'Pedido creado exitosamente' })

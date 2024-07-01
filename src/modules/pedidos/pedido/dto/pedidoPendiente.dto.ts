@@ -3,5 +3,5 @@ export class PedidoPendienteDTO {
   client: string;
   date: Date;
   items: number;
-  status: boolean;
+  status: string;
 }

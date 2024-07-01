@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { LocalService } from './local.service';
 import { LocalDto } from './dto/local.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,6 +19,12 @@ export class LocalController {
     async getAll() {
         return this.localService.getAll();
     }
+
+    @Get(':id')
+    async getOne(@Param('id', ParseIntPipe) id: number){
+        return this.localService.findById(id);
+    }
+
     @Roles('admin')
     @Post()
     async createLocal(@Body() dto: LocalDto){
@@ -27,7 +33,7 @@ export class LocalController {
 
     @Delete(':id')
     @Roles('admin')
-    async deleteLocal(id: number){
+    async deleteLocal(@Param('id', ParseIntPipe) id: number){
         return this.localService.delete(id);
     }
 
