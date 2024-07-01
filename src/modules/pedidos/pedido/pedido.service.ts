@@ -34,15 +34,11 @@ export class PedidoService {
   ) {}
 
   async createPedido(pedidoDto: PedidoDTO): Promise<PedidoEntity> {
-    const { precioTotal, fecha, fechaEntrega, estado, metodoPagoId, detalles, localId, clienteId } = pedidoDto;
+    const { precioTotal, fecha, fechaEntrega, estado, detalles, localId, clienteId } = pedidoDto;
 
     const local = await this.localRepository.findOne({ where: { id: +localId } });
     const cliente = await this.clienteRepository.findOne({ where: { id: +clienteId } });
-    const metodoPago = await this.metodoPagoRepository.findOne({ where: { id: +metodoPagoId } });
 
-    if (!metodoPago) {
-      throw new HttpException('Metodo de pago not found', 404);
-    }
     if (!local) {
       throw new HttpException('Local not found', 404);
     }
@@ -55,7 +51,6 @@ export class PedidoService {
       fecha,
       fechaEntrega,
       estado,
-      metodoPago,
       local: local,
       cliente,
     });
