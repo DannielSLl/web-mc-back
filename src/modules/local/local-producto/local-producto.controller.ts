@@ -10,9 +10,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LocalProductoService } from './local-producto.service';
 import { LocalProductoDto } from './dto/local-producto.dto';
 
-import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
+
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from 'src/modules/auth/roles.decorator';
+import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('local-producto')

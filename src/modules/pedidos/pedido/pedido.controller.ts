@@ -4,12 +4,12 @@ import { PedidoDTO } from './dto/pedido.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { PedidoPendienteDTO } from './dto/pedidoPendiente.dto';
 
-import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from 'src/modules/auth/roles.decorator';
 
 import { Request } from 'express';
 import { AuthenticatedUser } from 'src/modules/auth/user.interface';
+import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('pedidos')
@@ -22,9 +22,9 @@ export class PedidoController {
     return await this.pedidoService.getPedidosPedientes();
   }
 
-  @Get('all')
-  async getPedidos(): Promise<PedidoPendienteDTO[]> {
-    return await this.pedidoService.getPedidos();
+  @Get(':id') 
+  async getPedidoDetail(@Param('id', ParseIntPipe) id: number) {
+    return await this.pedidoService.getPedidoDetail(id);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -44,10 +44,10 @@ export class PedidoController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('empleado')
+  @Roles('admin')
   @Put(':id')
   async markToComplete(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const user = req.user as AuthenticatedUser;
-    return await this.pedidoService.markToComplete(id, user.id);
+    return await this.pedidoService.markToComplete(id);
   }
 }

@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PedidoEntity } from './pedido.entity';
@@ -8,6 +8,7 @@ import { ClienteEntity } from 'src/modules/clientes/cliente.entity';
 import { PedidoDetalleEntity } from '../pedido-detalles/pedido-detalle.entity';
 import { ProductEntity } from 'src/modules/products/product.entity';
 import { PedidoPendienteDTO } from './dto/pedidoPendiente.dto';
+import { PedidoDetailDto, Product } from './dto/pedidoDetail.dto';
 import { EmployeesEntity } from 'src/modules/employees/employees.entity';
 import { MetodoPagoEntity } from 'src/modules/metodo-pago/metodo-pago.entity';
 
@@ -78,61 +79,60 @@ export class PedidoService {
     return savedPedido;
   }
 
-  getPedidosPedientes(): Promise<PedidoPendienteDTO[]> {
-    let pedidos = this.pedidoRepository.find({ where: { estado: false }, relations: ['cliente', 'detalles', "local"]}
-      
+  async getPedidosPedientes(): Promise<PedidoPendienteDTO[]> {
+    let pedidos = await this.pedidoRepository.find({ where: { estado: true }, relations: ['cliente', 'detalles']}
     );
     if (!pedidos) {
       throw new Error('No hay pedidos pendientes');
     }
-    return pedidos.then((pedidos) => {
-      return pedidos.map((pedido) => {
-        return {
-          id: pedido.id,
-          client: pedido.cliente.name,
-          date: pedido.fecha,
-          items: pedido.detalles.length,
-          status: pedido.estado,
-          localId: pedido.local.id
-        };
-      });
+    return pedidos.map((pedido) => {
+      return {
+        id: pedido.id,
+        client: pedido.cliente.name,
+        date: pedido.fecha,
+        items: pedido.detalles.length,
+        status: pedido.estado ? 'pendiente' : 'entregado', 
+      };
     });
   }
 
-  getPedidos(): Promise<PedidoPendienteDTO[]> {
-    let pedidos = this.pedidoRepository.find({ relations: ['cliente', 'detalles', "local"] }
-      
-    );
-    if (!pedidos) {
-      throw new Error('No hay pedidos pendientes');
-    }
-    return pedidos.then((pedidos) => {
-      return pedidos.map((pedido) => {
-        return {
-          id: pedido.id,
-          client: pedido.cliente.name,
-          date: pedido.fecha,
-          items: pedido.detalles.length,
-          status: pedido.estado,
-          localId: pedido.local.id
-        };
-      });
+  async getPedidoDetail(id: number): Promise<any> {
+    const pedido = await this.pedidoRepository.findOne({
+      where: { id },
+      relations: ['cliente', 'detalles', 'detalles.producto'],
     });
+
+    if (!pedido) {
+      throw new NotFoundException('Pedido no encontrado');
+    }
+
+    const pedidoDetailDto: PedidoDetailDto = {
+      id: pedido.id,
+      nameClient: pedido.cliente.name,
+      lastNameClient: pedido.cliente.lastname,
+      phone: pedido.cliente.phone,
+      dateOrder: pedido.fecha.toISOString(), // Ajusta el formato de fecha según tus necesidades
+      orderDeliveryDate: pedido.fechaEntrega.toISOString(), // Ajusta el formato de fecha según tus necesidades
+      products: [],
+      total: 0,
+      status: pedido.estado ? 'Entregado' : 'Pendiente', // Ajusta según tu lógica de estado
+    };
+
+    pedido.detalles.forEach((detalle) => {
+      const product: Product = {
+        name: detalle.producto.nombre,
+        price: detalle.producto.precio,
+        quantity: detalle.cantidad,
+        totalPartial: detalle.cantidad * detalle.producto.precio,
+      };
+      pedidoDetailDto.products.push(product);
+      pedidoDetailDto.total += product.totalPartial;
+    });
+
+    return pedidoDetailDto;
   }
 
-  async markToComplete(pedidoId: number, empleadoId: number) {
-    const pedido = await this.pedidoRepository.findOne({ where: {id: +pedidoId}, relations: ["local"]});
-    const empleado = await this.employeesRepository.findOne({ where: { id: +empleadoId }, relations: ["local"]});
-    const puntosGanados = Math.floor(pedido.precioTotal / 10); 
-    await this.clienteRepository.increment({ id: pedido.cliente.id }, 'puntos', puntosGanados);
-
-    console.log(pedido);
-    console.log(empleado);
-    if (!pedido) throw new HttpException("Pedido no encontrado", 403);
-    if (pedido.local.id !== empleado.local.id){
-      throw new HttpException("Empleado no pertenece al local del pedido", 403)
-    }else{
-      return this.pedidoRepository.update({ id: pedidoId }, { estado: true });
-    }
+  async markToComplete(pedidoId: number) {
+    return this.pedidoRepository.update({ id: pedidoId }, { estado: false });
   }
 }

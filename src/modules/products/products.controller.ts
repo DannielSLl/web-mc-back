@@ -13,6 +13,7 @@ import {
 import { ProductService } from './products.service';
 import { ProductDto } from './dto/product.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger'; 
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @ApiTags('productos')
 @Controller('products')
@@ -42,7 +43,7 @@ export class ProductsController {
   }
 
   @Get('categoria/:categoriaId')
-  async findByCategoria(categoriaId: number) {
+  async findByCategoria(@Param('categoriaId', ParseIntPipe) categoriaId: number) {
     return await this.productService.findByCategoria(categoriaId);
   }
 
@@ -55,13 +56,12 @@ export class ProductsController {
     return await this.productService.create(dto);
   }
 
-  @UsePipes(new ValidationPipe({ whitelist: true }))
   @Put(':id')
   @ApiOperation({ summary: 'Actualizar un producto existente por su ID' }) 
   @ApiParam({ name: 'id', type: 'number', description: 'ID del producto' }) 
-  @ApiBody({ type: ProductDto }) 
-  @ApiResponse({ status: 200, description: 'Producto actualizado correctamente.', type: ProductDto }) 
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: ProductDto) {
+  @ApiBody({ type: UpdateProductDto }) 
+  @ApiResponse({ status: 200, description: 'Producto actualizado correctamente.', type: UpdateProductDto }) 
+  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateProductDto) {
     return await this.productService.update(id, dto);
   }
 

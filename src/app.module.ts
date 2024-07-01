@@ -47,7 +47,6 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
 
 import { ComprasInventorioController } from './modules/inventorio/compras-inventario.controller';
 import { ComprasInventorioEntity } from './modules/inventorio/compras-inventario.entity';
-import { ComprasInventorioService } from 'dist/modules/inventorio/compras-inventario.service';
 import { MetodoPagoController } from './modules/metodo-pago/metodo-pago.controller';
 import { MetodoPagoEntity } from './modules/metodo-pago/metodo-pago.entity';
 import { MetodoPagoService } from './modules/metodo-pago/metodo-pago.service';
@@ -55,8 +54,9 @@ import { MetodoPagoService } from './modules/metodo-pago/metodo-pago.service';
 import { jwtConstanst } from './jwtConstants';
 import { JwtStrategy } from './modules/auth/jtw.strategy';
 
-import { JwtAuthGuard } from './guards/auth/auth.guard';
 import { RolesGuard } from './guards/roles/roles.guard';
+import { ComprasInventorioService } from './modules/inventorio/compras-inventario.service';
+import { JwtAuthGuard } from './guards/auth/auth.guard';
 
 @Module({
   imports: [
@@ -75,7 +75,7 @@ import { RolesGuard } from './guards/roles/roles.guard';
       ProductEntity,
       AdminEntity,
       ProductoFavEntity,
-      ComprasInventorioEntity
+      ComprasInventorioEntity,
       LocalEntity,
       MetodoPagoEntity
     ]),
@@ -93,7 +93,7 @@ import { RolesGuard } from './guards/roles/roles.guard';
     PedidoController,
     AdminController,
     ProductosFavController,
-    ComprasInventorioController
+    ComprasInventorioController,
     MetodoPagoController
   ],
   providers: [
@@ -106,7 +106,7 @@ import { RolesGuard } from './guards/roles/roles.guard';
     AdminService,
     ProductosFavService,
     ProductService,
-    ComprasInventorioService
+    ComprasInventorioService,
     MetodoPagoService,
     JwtStrategy,
     JwtAuthGuard,
