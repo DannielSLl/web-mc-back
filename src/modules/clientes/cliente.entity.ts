@@ -22,9 +22,8 @@ export class ClienteEntity {
   @Column({type: 'varchar'})
   password: string;
 
-  @Column({type: 'int'})
+  @Column({ type: 'int', default: 0 }) 
   puntos: number;
-
   @OneToMany(() => PedidoEntity, pedidoEntity => pedidoEntity.local)
   pedidos: PedidoEntity[];
 
