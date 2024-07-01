@@ -8,7 +8,6 @@ import { ClienteEntity } from 'src/modules/clientes/cliente.entity';
 import { PedidoDetalleEntity } from '../pedido-detalles/pedido-detalle.entity';
 import { ProductEntity } from 'src/modules/products/product.entity';
 import { PedidoPendienteDTO } from './dto/pedidoPendiente.dto';
-import { PedidoDetalleDTO } from '../pedido-detalles/dto/pedido-detalle.dto';
 import { EmployeesEntity } from 'src/modules/employees/employees.entity';
 
 @Injectable()
@@ -116,6 +115,9 @@ export class PedidoService {
   async markToComplete(pedidoId: number, empleadoId: number) {
     const pedido = await this.pedidoRepository.findOne({ where: {id: +pedidoId}, relations: ["local"]});
     const empleado = await this.employeesRepository.findOne({ where: { id: +empleadoId }, relations: ["local"]});
+    const puntosGanados = Math.floor(pedido.precioTotal / 10); 
+    await this.clienteRepository.increment({ id: pedido.cliente.id }, 'puntos', puntosGanados);
+
     console.log(pedido);
     console.log(empleado);
     if (!pedido) throw new HttpException("Pedido no encontrado", 403);
