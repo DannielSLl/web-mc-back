@@ -34,21 +34,16 @@ export class PedidoDTO {
     @IsNotEmpty()
     @IsBoolean()
     estado: boolean;
-    
-    @ApiProperty({
-        description: 'Metodo de pago seleccionado',
-        example: 'efectivo',
-      })
-    @IsNotEmpty()
-    @IsString()
-    metodoPago: string;
-    
-    @ApiProperty({
-        description: 'ayuda aqui',
-        example: 'ayuda aqui',
-      })
 
-      @ApiProperty({
+    @ApiProperty({
+      description: 'ID del metodo de pago seleccionado',
+      example: 1,
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    metodoPagoId: number;
+    
+    @ApiProperty({
         description: 'Detalles del pedido',
         type: [PedidoDetalleDTO],
         example: [

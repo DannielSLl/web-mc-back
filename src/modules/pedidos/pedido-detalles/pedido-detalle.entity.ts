@@ -13,6 +13,7 @@ export class PedidoDetalleEntity {
   @ManyToOne(() => PedidoEntity, pedido => pedido.detalles)
   pedido: PedidoEntity;
 
-  @ManyToOne(() => ProductEntity, producto => producto.detalles)
+  @ManyToOne(() => ProductEntity, producto => producto.detalles,
+    { onDelete: 'CASCADE' })
   producto: ProductEntity;
 }

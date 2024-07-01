@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IngredientesEntity } from './ingredientes/ingredientes.entity';
 import { IngredientesProductosEntity } from './ingredienteProducto/ingredientes-productos.entity';
@@ -11,6 +11,10 @@ import { ProductEntity } from '../products/product.entity';
 import { CategoriaService } from '../categoria/categoria.service';
 import { CategoriaEntity } from '../categoria/categoria.entity';
 import { LocalIngredienteEntity } from '../local/local-ingrediente/local-ingrediente.entity';
+import { LocalProductoEntity } from '../local/local-producto/local-producto.entity';
+import { LocalProductoService } from '../local/local-producto/local-producto.service';
+import { LocalModule } from '../local/local.module';
+import { ProductsModule } from '../products/products.module';
 
 @Module({
   imports: [
@@ -19,8 +23,10 @@ import { LocalIngredienteEntity } from '../local/local-ingrediente/local-ingredi
       IngredientesProductosEntity,
       ProductEntity,
       CategoriaEntity,
-      LocalIngredienteEntity
+      LocalProductoEntity,
     ]),
+    forwardRef(() => LocalModule),
+    forwardRef(() => ProductsModule),
   ],
   controllers: [IngredientesController, IngredientesProductosController],
   providers: [

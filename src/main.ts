@@ -11,7 +11,11 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('WEB MC BACK')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    })
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

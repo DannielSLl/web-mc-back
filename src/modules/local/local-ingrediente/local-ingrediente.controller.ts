@@ -1,9 +1,16 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { LocalIngredienteService } from './local-ingrediente.service';
 import { LocalIngredienteDto } from './dto/local-ingrediente.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
+import { Roles } from 'src/modules/auth/roles.decorator';
+
+@ApiBearerAuth()
 @ApiTags('local-ingrediente')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('admin')
 @Controller('local-ingrediente')
 export class LocalIngredienteController {
   constructor(

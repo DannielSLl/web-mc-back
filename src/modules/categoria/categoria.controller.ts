@@ -1,8 +1,12 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { ApiTags, ApiResponse, ApiParam, ApiBody, ApiOperation } from '@nestjs/swagger'; 
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { ApiTags, ApiResponse, ApiParam, ApiBody, ApiOperation, ApiBearerAuth } from '@nestjs/swagger'; 
 import { CategoriaService } from './categoria.service';
 import { CategoriaDto } from './dto/categoria.dto';
 
+import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+@ApiBearerAuth()
 @ApiTags('categoria')
 @Controller('categoria')
 export class CategoriaController {
@@ -24,6 +28,8 @@ export class CategoriaController {
   }
 
   @UsePipes(new ValidationPipe({ whitelist: true }))
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Post()
   @ApiOperation({ summary: 'Crear una nueva categoría.' }) 
   @ApiBody({ type: CategoriaDto }) 
@@ -32,6 +38,8 @@ export class CategoriaController {
     return await this.categoriaSerice.create(dto);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Delete(':id')
   @ApiOperation({ summary: 'Eliminar una categoría por su ID.' }) 
   @ApiParam({ name: 'id', type: 'number', description: 'ID de la categoría' }) 

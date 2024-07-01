@@ -25,6 +25,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
 
 import { LocalModule } from './modules/local/local.module';
+import { LocalEntity } from './modules/local/local/local.entity';
 
 import { ProductsModule } from './modules/products/products.module';
 import { ProductService } from './modules/products/products.service';
@@ -44,6 +45,18 @@ import { ProductoFavEntity } from './modules/productos-fav/producto-fav.entity';
 import { ProductosFavService } from './modules/productos-fav/productos-fav.service';
 import { ProductosFavController } from './modules/productos-fav/productos-fav.controller';
 
+import { ComprasInventorioController } from './modules/inventorio/compras-inventario.controller';
+import { ComprasInventorioEntity } from './modules/inventorio/compras-inventario.entity';
+import { MetodoPagoController } from './modules/metodo-pago/metodo-pago.controller';
+import { MetodoPagoEntity } from './modules/metodo-pago/metodo-pago.entity';
+import { MetodoPagoService } from './modules/metodo-pago/metodo-pago.service';
+
+import { jwtConstanst } from './jwtConstants';
+import { JwtStrategy } from './modules/auth/jtw.strategy';
+
+import { RolesGuard } from './guards/roles/roles.guard';
+import { ComprasInventorioService } from './modules/inventorio/compras-inventario.service';
+import { JwtAuthGuard } from './guards/auth/auth.guard';
 
 @Module({
   imports: [
@@ -61,10 +74,13 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
       PedidoDetalleEntity,
       ProductEntity,
       AdminEntity,
-      ProductoFavEntity
+      ProductoFavEntity,
+      ComprasInventorioEntity,
+      LocalEntity,
+      MetodoPagoEntity
     ]),
     JwtModule.register({
-      secret: 'clave_secreta', //Cambiar luego
+      secret: jwtConstanst.secret, //Cambiar luego
       signOptions: { expiresIn: '24h' },
     }),
   ],
@@ -76,7 +92,9 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
     AuthController,
     PedidoController,
     AdminController,
-    ProductosFavController
+    ProductosFavController,
+    ComprasInventorioController,
+    MetodoPagoController
   ],
   providers: [
     AppService,
@@ -87,7 +105,12 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
     PedidoService,
     AdminService,
     ProductosFavService,
-    ProductService 
+    ProductService,
+    ComprasInventorioService,
+    MetodoPagoService,
+    JwtStrategy,
+    JwtAuthGuard,
+    RolesGuard
   ],
   exports: [
     JwtModule,

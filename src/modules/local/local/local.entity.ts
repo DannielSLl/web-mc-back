@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalIngredienteEntity } from '../local-ingrediente/local-ingrediente.entity';
 import { LocalProductoEntity } from '../local-producto/local-producto.entity';
 import { PedidoEntity } from 'src/modules/pedidos/pedido/pedido.entity';
+import { EmployeesEntity } from 'src/modules/employees/employees.entity';
 
 @Entity('locales')
 export class LocalEntity {
@@ -11,7 +12,7 @@ export class LocalEntity {
   @Column({ type: 'varchar', length: 50, nullable: false, unique: true })
   nombre: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, unique: true })
+  @Column({ type: 'varchar', length: 50, nullable: false })
   ciudad: string;
 
   @Column({ type: 'varchar', length: 100, nullable: false, unique: true })
@@ -29,9 +30,10 @@ export class LocalEntity {
   )
   localProductoEntity: LocalProductoEntity[];
 
-  @OneToMany(
-    () => PedidoEntity, 
-    (pedido) => pedido.local
+  @OneToMany(() => PedidoEntity, (pedido) => pedido.local
   )
   pedidos: PedidoEntity[];
+
+  @OneToMany(() => EmployeesEntity, employee => employee.local)
+  empleados: EmployeesEntity[];
 }

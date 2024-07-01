@@ -7,9 +7,12 @@ export class ProductoFavEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => ClienteEntity, cliente => cliente.productosFav)
+  @ManyToOne(() => ClienteEntity, (cliente) => cliente.productosFav, {
+    onDelete: 'CASCADE',
+  })
   cliente: ClienteEntity;
 
-  @ManyToOne(() => ProductEntity, product => product.productosFav)
+  @ManyToOne(() => ProductEntity, (product) => product.productosFav,
+    { onDelete: 'CASCADE' })
   producto: ProductEntity;
 }

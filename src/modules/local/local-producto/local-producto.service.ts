@@ -1,10 +1,11 @@
 import { LocalService } from './../local/local.service';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, forwardRef, Inject, Injectable, Delete } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { LocalProductoEntity } from './local-producto.entity';
 import { LocalProductoDto } from './dto/local-producto.dto';
 import { ProductService } from 'src/modules/products/products.service';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class LocalProductoService {
@@ -12,6 +13,8 @@ export class LocalProductoService {
     @InjectRepository(LocalProductoEntity)
     private localProductoRepository: Repository<LocalProductoEntity>,
     private localService: LocalService,
+
+    @Inject(forwardRef(() => ProductService))
     private productoService: ProductService,
   ) {}
 
