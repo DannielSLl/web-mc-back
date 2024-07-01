@@ -25,6 +25,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { IngredientesModule } from './modules/ingredientes/ingredientes.module';
 
 import { LocalModule } from './modules/local/local.module';
+import { LocalEntity } from './modules/local/local/local.entity';
 
 import { ProductsModule } from './modules/products/products.module';
 import { ProductService } from './modules/products/products.service';
@@ -47,6 +48,15 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
 import { ComprasInventorioController } from './modules/inventorio/compras-inventario.controller';
 import { ComprasInventorioEntity } from './modules/inventorio/compras-inventario.entity';
 import { ComprasInventorioService } from 'dist/modules/inventorio/compras-inventario.service';
+import { MetodoPagoController } from './modules/metodo-pago/metodo-pago.controller';
+import { MetodoPagoEntity } from './modules/metodo-pago/metodo-pago.entity';
+import { MetodoPagoService } from './modules/metodo-pago/metodo-pago.service';
+
+import { jwtConstanst } from './jwtConstants';
+import { JwtStrategy } from './modules/auth/jtw.strategy';
+
+import { JwtAuthGuard } from './guards/auth/auth.guard';
+import { RolesGuard } from './guards/roles/roles.guard';
 
 @Module({
   imports: [
@@ -66,9 +76,11 @@ import { ComprasInventorioService } from 'dist/modules/inventorio/compras-invent
       AdminEntity,
       ProductoFavEntity,
       ComprasInventorioEntity
+      LocalEntity,
+      MetodoPagoEntity
     ]),
     JwtModule.register({
-      secret: 'clave_secreta', //Cambiar luego
+      secret: jwtConstanst.secret, //Cambiar luego
       signOptions: { expiresIn: '24h' },
     }),
   ],
@@ -82,6 +94,7 @@ import { ComprasInventorioService } from 'dist/modules/inventorio/compras-invent
     AdminController,
     ProductosFavController,
     ComprasInventorioController
+    MetodoPagoController
   ],
   providers: [
     AppService,
@@ -94,6 +107,10 @@ import { ComprasInventorioService } from 'dist/modules/inventorio/compras-invent
     ProductosFavService,
     ProductService,
     ComprasInventorioService
+    MetodoPagoService,
+    JwtStrategy,
+    JwtAuthGuard,
+    RolesGuard
   ],
   exports: [
     JwtModule,

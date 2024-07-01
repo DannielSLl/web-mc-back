@@ -1,12 +1,20 @@
-import { Controller, Get, Post, Param, Body, ParseIntPipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { Controller, Get, Post, Param, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import * as bcrypt from 'bcryptjs';
 import { AdminEntity } from './admin.entity';
 import { AdminDTO } from './dto/adminDTO';
 import { PostAdminResponse } from './dto/postAdminResponse';
 import { AdminService } from './admin.service';
 
+import { JwtAuthGuard } from 'src/guards/auth/auth.guard';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+
+
+@ApiBearerAuth()
 @ApiTags('Admin')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('admin')
 @Controller('admin')
 export class AdminController {
     constructor(private adminService: AdminService) {}

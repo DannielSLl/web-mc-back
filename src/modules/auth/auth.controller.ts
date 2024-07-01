@@ -39,9 +39,10 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Credenciales inválidas' })
   @ApiBody({ type: AuthCredentialsDto })
   @HttpCode(HttpStatus.OK)
-  async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ token: string }> {
+  async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ token: string }>  { 
     const token = await this.authService.signIn(authCredentialsDto);
     
     return { token };
+  
   }
 }

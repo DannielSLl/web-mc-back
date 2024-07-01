@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { LocalEntity } from "../local/local/local.entity";
 
 @Entity({name: 'empleados'})
 export class EmployeesEntity {
@@ -19,4 +20,7 @@ export class EmployeesEntity {
 
     @Column({type: 'varchar', nullable: false})
     role: string;
+
+    @ManyToOne(() => LocalEntity, local => local.empleados)
+    local: LocalEntity;
 }
