@@ -10,6 +10,7 @@ import { ProductEntity } from 'src/modules/products/product.entity';
 import { PedidoPendienteDTO } from './dto/pedidoPendiente.dto';
 import { PedidoDetalleDTO } from '../pedido-detalles/dto/pedido-detalle.dto';
 import { EmployeesEntity } from 'src/modules/employees/employees.entity';
+import { MetodoPagoEntity } from 'src/modules/metodo-pago/metodo-pago.entity';
 
 @Injectable()
 export class PedidoService {
@@ -26,15 +27,22 @@ export class PedidoService {
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
     @InjectRepository(EmployeesEntity)
-    private readonly employeesRepository: Repository<EmployeesEntity>
+    private readonly employeesRepository: Repository<EmployeesEntity>,
+    @InjectRepository(MetodoPagoEntity)
+    private readonly metodoPagoRepository: Repository<MetodoPagoEntity>
+    
   ) {}
 
   async createPedido(pedidoDto: PedidoDTO): Promise<PedidoEntity> {
-    const { precioTotal, fecha, fechaEntrega, estado, metodoPago, detalles, localId, clienteId } = pedidoDto;
+    const { precioTotal, fecha, fechaEntrega, estado, metodoPagoId, detalles, localId, clienteId } = pedidoDto;
 
     const local = await this.localRepository.findOne({ where: { id: +localId } });
     const cliente = await this.clienteRepository.findOne({ where: { id: +clienteId } });
+    const metodoPago = await this.metodoPagoRepository.findOne({ where: { id: +metodoPagoId } });
 
+    if (!metodoPago) {
+      throw new HttpException('Metodo de pago not found', 404);
+    }
     if (!local) {
       throw new HttpException('Local not found', 404);
     }
@@ -42,7 +50,6 @@ export class PedidoService {
     if (!cliente) {
       throw new HttpException('Cliente not found', 404);
     }
-
     const pedido = this.pedidoRepository.create({
       precioTotal,
       fecha,
@@ -52,6 +59,7 @@ export class PedidoService {
       local: local,
       cliente,
     });
+
 
     const savedPedido = await this.pedidoRepository.save(pedido);
 

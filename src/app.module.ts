@@ -45,6 +45,9 @@ import { ProductoFavEntity } from './modules/productos-fav/producto-fav.entity';
 import { ProductosFavService } from './modules/productos-fav/productos-fav.service';
 import { ProductosFavController } from './modules/productos-fav/productos-fav.controller';
 
+import { MetodoPagoController } from './modules/metodo-pago/metodo-pago.controller';
+import { MetodoPagoEntity } from './modules/metodo-pago/metodo-pago.entity';
+import { MetodoPagoService } from './modules/metodo-pago/metodo-pago.service';
 
 import { jwtConstanst } from './jwtConstants';
 import { JwtStrategy } from './modules/auth/jtw.strategy';
@@ -70,7 +73,8 @@ import { RolesGuard } from './guards/roles/roles.guard';
       ProductEntity,
       AdminEntity,
       ProductoFavEntity,
-      LocalEntity
+      LocalEntity,
+      MetodoPagoEntity
     ]),
     JwtModule.register({
       secret: jwtConstanst.secret, //Cambiar luego
@@ -85,7 +89,8 @@ import { RolesGuard } from './guards/roles/roles.guard';
     AuthController,
     PedidoController,
     AdminController,
-    ProductosFavController
+    ProductosFavController,
+    MetodoPagoController
   ],
   providers: [
     AppService,
@@ -97,6 +102,7 @@ import { RolesGuard } from './guards/roles/roles.guard';
     AdminService,
     ProductosFavService,
     ProductService,
+    MetodoPagoService,
     JwtStrategy,
     JwtAuthGuard,
     RolesGuard

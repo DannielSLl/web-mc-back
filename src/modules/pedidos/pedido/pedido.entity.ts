@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'ty
 import { LocalEntity } from 'src/modules/local/local/local.entity';
 import { PedidoDetalleEntity } from '../pedido-detalles/pedido-detalle.entity';
 import { ClienteEntity } from 'src/modules/clientes/cliente.entity';
+import { MetodoPagoEntity } from 'src/modules/metodo-pago/metodo-pago.entity';
 
 @Entity('pedidos')
 export class PedidoEntity {
@@ -20,9 +21,6 @@ export class PedidoEntity {
   @Column()
   estado: boolean;
 
-  @Column()
-  metodoPago: string;
-
   //relaciones
   @ManyToOne(() => LocalEntity, local => local.pedidos)
   local: LocalEntity;
@@ -32,4 +30,7 @@ export class PedidoEntity {
 
   @ManyToOne(() => ClienteEntity, clienteEntity => clienteEntity.pedidos)
   cliente: ClienteEntity;
+
+  @ManyToOne(() => MetodoPagoEntity, metodoPagoEntity => metodoPagoEntity.pedidos)
+  metodoPago: MetodoPagoEntity;
 }
