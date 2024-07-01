@@ -34,7 +34,7 @@ export class PedidoDTO {
     @IsNotEmpty()
     @IsBoolean()
     estado: boolean;
-    
+
     @ApiProperty({
       description: 'ID del metodo de pago seleccionado',
       example: 1,
