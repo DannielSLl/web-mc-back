@@ -44,6 +44,9 @@ import { ProductoFavEntity } from './modules/productos-fav/producto-fav.entity';
 import { ProductosFavService } from './modules/productos-fav/productos-fav.service';
 import { ProductosFavController } from './modules/productos-fav/productos-fav.controller';
 
+import { ComprasInventorioController } from './modules/inventorio/compras-inventario.controller';
+import { ComprasInventorioEntity } from './modules/inventorio/compras-inventario.entity';
+import { ComprasInventorioService } from 'dist/modules/inventorio/compras-inventario.service';
 
 @Module({
   imports: [
@@ -61,7 +64,8 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
       PedidoDetalleEntity,
       ProductEntity,
       AdminEntity,
-      ProductoFavEntity
+      ProductoFavEntity,
+      ComprasInventorioEntity
     ]),
     JwtModule.register({
       secret: 'clave_secreta', //Cambiar luego
@@ -76,7 +80,8 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
     AuthController,
     PedidoController,
     AdminController,
-    ProductosFavController
+    ProductosFavController,
+    ComprasInventorioController
   ],
   providers: [
     AppService,
@@ -87,7 +92,8 @@ import { ProductosFavController } from './modules/productos-fav/productos-fav.co
     PedidoService,
     AdminService,
     ProductosFavService,
-    ProductService 
+    ProductService,
+    ComprasInventorioService
   ],
   exports: [
     JwtModule,

@@ -27,7 +27,7 @@ export class PedidoService {
   ) {}
 
   async createPedido(pedidoDto: PedidoDTO): Promise<PedidoEntity> {
-    const { precioTotal, fecha, fechaEntrega, estado, metodoPago, detalles, localId, clienteId } = pedidoDto;
+    const { precioTotal, fecha, fechaEntrega, estado, detalles, localId, clienteId } = pedidoDto;
 
     const local = await this.localRepository.findOne({ where: { id: +localId } });
     const cliente = await this.clienteRepository.findOne({ where: { id: +clienteId } });
@@ -41,7 +41,6 @@ export class PedidoService {
       fecha,
       fechaEntrega,
       estado,
-      metodoPago,
       local,
       cliente,
     });

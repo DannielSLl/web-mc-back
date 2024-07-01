@@ -4,7 +4,7 @@ import { ComprasInventorioDTO } from '../inventorio/dto/compras-inventario.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 
 @ApiTags('compras-inventario')
-@Controller('compras_inventario')
+@Controller('compras-inventario')
 export class ComprasInventorioController{
   constructor(private readonly ComprasInventorioService: ComprasInventorioService) {}
 
