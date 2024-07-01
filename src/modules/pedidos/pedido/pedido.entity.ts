@@ -19,7 +19,10 @@ export class PedidoEntity {
 
   @Column()
   estado: boolean;
-  
+
+  @Column()
+  metodoPago: string;
+
   //relaciones
   @ManyToOne(() => LocalEntity, local => local.pedidos)
   local: LocalEntity;

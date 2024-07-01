@@ -36,6 +36,14 @@ export class PedidoDTO {
     estado: boolean;
 
     @ApiProperty({
+        description: 'Metodo de pago seleccionado',
+        example: 'efectivo',
+      })
+    @IsNotEmpty()
+    @IsString()
+    metodoPago: string;
+    
+    @ApiProperty({
         description: 'ayuda aqui',
         example: 'ayuda aqui',
       })
